@@ -10,6 +10,6 @@ class MathTools {
 
     protected:
 
-}
+};
 
 #endif MATHTOOLS_H
