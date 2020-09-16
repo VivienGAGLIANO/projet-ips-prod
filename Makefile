@@ -5,11 +5,13 @@ TARGET = main
 
 all: $(TARGET)
 
-%.o: %.c %.h
-	$(CC) $(CFLAGS) -o $@ $<
+$(TARGET): $(OBJECTS)
+    $(CC) $(CFLAGS) $^ -o $@
 
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean
 clean:
-	rm -r $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET)
