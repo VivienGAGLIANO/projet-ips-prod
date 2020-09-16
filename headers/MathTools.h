@@ -1,0 +1,4 @@
+#ifndef MATHTOOLS_H
+#define MATHTOOLS_H
+
+#endif MATHTOOLS_H
