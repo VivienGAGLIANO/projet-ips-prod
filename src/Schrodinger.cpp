@@ -1,1 +1,1 @@
-#include "Schrodinger.h"
+#include "../headers/Schrodinger.h"
