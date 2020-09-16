@@ -3,12 +3,15 @@ CFLAGS = -Wall -Wextra
 OBJECTS = MathTools.o Schrodinger.o
 TARGET = main
 
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+    $(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.c %.h
-	$(CC) $(CFLAGS) -o $@ $<
-
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean
 clean:
-	rm -r $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET)
