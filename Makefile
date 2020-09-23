@@ -12,6 +12,7 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-.PHONY: clean
+.PHONY: clean re
 clean:
 	rm -f $(OBJECTS) $(TARGET)
+re: clean all
