@@ -10,6 +10,7 @@ class Schrodinger {
         const double pi = 1;
         const double h = 1;
 
+        double solution(int, double);
         bool orthonormality();
         double energy(int);
 
