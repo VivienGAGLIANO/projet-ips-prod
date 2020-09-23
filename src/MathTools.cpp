@@ -48,7 +48,7 @@ double hermit(int n, double z) {
  * 
  * This recursive function computes the factorial of n
  * 
- * @param n int to computes the factorial of
+ * @param n integer to computes the factorial of
  */
 int MathTools::factorial(int n) {
     if (n == 0 || n == 1)
