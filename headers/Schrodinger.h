@@ -18,4 +18,4 @@ class Schrodinger {
 
 };
 
-#endif SCHRODINGER_H
+#endif // SCHRODINGER_H
