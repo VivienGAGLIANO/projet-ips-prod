@@ -5,7 +5,11 @@
 
 class Schrodinger {
     public:
-        arma::cx_double solution(arma::cx_double, int);
+        const double m = 1;
+        const double w = 1;
+        const double pi = 1;
+        const double h = 1;
+
         bool orthonormality();
         double energy(int);
 
