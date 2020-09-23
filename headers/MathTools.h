@@ -14,4 +14,4 @@ class MathTools {
 
 };
 
-#endif MATHTOOLS_H
+#endif // MATHTOOLS_H

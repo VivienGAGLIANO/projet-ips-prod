@@ -6,7 +6,7 @@
 
 
 double MathTools::integrate(double f(double)) {
-
+	return 0;
 }
 
 /**
