@@ -6,6 +6,7 @@ class MathTools {
     public:
         double integrate(double (double));
         double hermit(int, double);
+        int factorial(int);
 
     private:
 

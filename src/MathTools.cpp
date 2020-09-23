@@ -26,3 +26,16 @@ double MathTools::hermit(int n, double z) {
     }
     return 2 * z * hermit(n - 1, z) - 2 * (n - 1) * hermit(n - 2, z);
 }
+
+/**
+ * Computes the factorial
+ * 
+ * This recursive function computes the factorial of n
+ * 
+ * @param n int to computes the factorial of
+ */
+int MathTools::factorial(int n) {
+    if (n == 0 || n == 1)
+        return 1;
+    return n * factorial(n-1);
+}
