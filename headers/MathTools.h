@@ -4,9 +4,9 @@
 
 class MathTools {
     public:
-        double integrate(double (double));
-        double hermit(int, double);
-        int factorial(int);
+        static double integrate(double (double));
+        static double hermit(int, double);
+        static int factorial(int);
 
     private:
 
