@@ -5,6 +5,7 @@
 class MathTools {
     public:
         double integrate(double (double));
+        double hermit(int, double);
 
     private:
 
