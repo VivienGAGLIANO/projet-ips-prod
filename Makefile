@@ -6,9 +6,9 @@ TARGET = main
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-    $(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
-%.o: %.c %.h
+%.o: src/%.cpp headers/%.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
