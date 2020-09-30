@@ -39,7 +39,7 @@ arma::vec MathTools::fast_hermit(int n, double z) {
  * @param z evaluation point
  * @return Returns evaluation of n-th polynom in z
  */
-double hermit(int n, double z) {
+double MathTools::hermit(int n, double z) {
     return fast_hermit(n, z)(1);
 }
 
