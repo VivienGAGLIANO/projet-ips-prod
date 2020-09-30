@@ -14,5 +14,5 @@ $(TARGET): $(OBJECTS)
 
 .PHONY: clean re
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET) *.out
 re: clean all
