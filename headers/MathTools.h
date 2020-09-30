@@ -10,7 +10,7 @@ class MathTools {
         static int factorial(int);
 
     private:
-        arma::vec fast_hermit(int, double);
+        static arma::vec fast_hermit(int, double);
 
     protected:
 
