@@ -10,13 +10,15 @@
  */
 void Hermit::hermit(int n) {
     int m = hermit_values.n_cols;
-    while (m < n) {
+    while (m <= n) {
         arma::colvec next_col;
         if (m == 1)
             next_col = 2*mesh;
         else
             next_col = 2*(mesh%hermit_values.col(m-1)) - 2*(m-1)*hermit_values.col(m-2);
+        std::cout << "avant ";
         hermit_values.insert_cols(m, next_col);
+        std::cout << "après : " << hermit_values.n_cols << "\n";
         m++;
     }
 }
