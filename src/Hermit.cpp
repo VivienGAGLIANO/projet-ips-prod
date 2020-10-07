@@ -1,4 +1,4 @@
-#include "../headers/hermit.h"
+#include "../headers/Hermit.h"
 
 
 // /**

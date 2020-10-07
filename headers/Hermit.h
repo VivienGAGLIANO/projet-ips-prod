@@ -1,7 +1,7 @@
 #ifndef HERMIT_H
 #define HERMIT_H
 
-#include<armadillo>
+#include <armadillo>
 
 
 class Hermit {
