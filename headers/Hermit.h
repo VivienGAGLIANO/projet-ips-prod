@@ -6,11 +6,11 @@
 
 class Hermit {
     public:
-        const arma::rowvec mesh;
-        Hermit(arma::rowvec mesh) : mesh(mesh) {
-            hermit_values = arma::mat(1, mesh.n_elem).ones();
+        const arma::colvec mesh;
+        Hermit(arma::colvec mesh) : mesh(mesh) {
+            hermit_values = arma::mat(mesh.n_elem, 1).ones();
         };
-        arma::rowvec get(int);
+        arma::colvec get(int);
     private:
         arma::mat hermit_values;
         void hermit(int);

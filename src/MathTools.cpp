@@ -1,12 +1,11 @@
 #include "../headers/MathTools.h"
-#include <boost/math/quadrature/gauss.hpp> // scientific library used to get gaussian quadrature tabulated values
 /**
  * @file MathTools.cpp
  */
 
 
 double MathTools::integrate(double f(double)) {
-	return boost::math::quadrature::gauss<double, 25>::integrate(f, -1, 1);
+	return 0;
 }
 
 
