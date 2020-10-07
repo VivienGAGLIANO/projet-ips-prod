@@ -1,5 +1,5 @@
 #include "../headers/Hermit.h"
-
+#include <iomanip> // hermit << operator formatting
 
 /**
  * Computes and evaluates hermit polynom
@@ -36,4 +36,14 @@ arma::colvec Hermit::get(int n) {
         hermit(n);
     }
     return hermit_values.col(n);
+}
+
+std::ostream& operator<<(std::ostream &stream, const Hermit &hermit) {
+    for (int z = 0; z < hermit.hermit_values.n_cols; ++z) {
+        for (int n = 0; n < hermit.hermit_values.n_rows; ++n) {
+            stream << std::setw(hermit.insert_size) << hermit.hermit_values(n, z) << " ";
+        }
+        stream << std::endl;
+    }
+    return stream;
 }
