@@ -1,15 +1,17 @@
 CC = g++
-CFLAGS = -Wall -Wextra
-OBJECTS = obj/MathTools.o obj/Schrodinger.o
+CFLAGS = -Wall -Wextra -larmadillo -lm
+OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Hermit.o
 TARGET = main
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
+$(TARGET): $(TARGET).cpp $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
 
 obj/%.o: src/%.cpp headers/%.h
 	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: obj/%.o
 
 
 .PHONY: clean re
