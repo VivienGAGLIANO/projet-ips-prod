@@ -1,12 +1,12 @@
 #include <cxxtest/TestSuite.h>
-#include "../src/hermit.cpp"
+#include "../src/Hermit.cpp"
 
 class TestHermit : public CxxTest::TestSuite
 {
 	public:
 	void testHermit(void)
 	{
-		Hermit herm(arma::rowvec("-2 0 2"));
+		Hermit herm(arma::colvec("-2 0 2"));
 	       	TS_ASSERT_EQUALS(herm.get(0)(0),1);
 		TS_ASSERT_EQUALS(herm.get(0)(1),1);
 		TS_ASSERT_EQUALS(herm.get(0)(2),1);
