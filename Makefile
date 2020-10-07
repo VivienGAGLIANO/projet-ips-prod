@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -Wall -Wextra
-OBJECTS = MathTools.o Schrodinger.o
+OBJECTS = obj/MathTools.o obj/Schrodinger.o
 TARGET = main
 
 all: $(TARGET)
@@ -8,7 +8,7 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-%.o: src/%.cpp headers/%.h
+obj/%.o: src/%.cpp headers/%.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
