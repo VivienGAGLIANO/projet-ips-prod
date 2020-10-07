@@ -10,7 +10,7 @@ class Schrodinger {
         const double pi = 1;
         const double h = 1;
 
-        double solution(int, double);
+        arma::colvec solution(int, arma::rowvec);
         bool orthonormality();
         double energy(int);
 
