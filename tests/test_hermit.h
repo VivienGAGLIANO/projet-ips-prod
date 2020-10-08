@@ -6,12 +6,12 @@ class TestHermit : public CxxTest::TestSuite
 	public:
 	void testHermit(void)
 	{
-		Hermit herm(arma::colvec("-2 0 2"));
+		Hermit herm(arma::colvec({-2,0,2}));
 	       	TS_ASSERT_EQUALS(herm.get(0)(0),1);
 		TS_ASSERT_EQUALS(herm.get(0)(1),1);
 		TS_ASSERT_EQUALS(herm.get(0)(2),1);
 		TS_ASSERT_EQUALS(herm.get(1)(2),4);
-		TS_ASSERT_EQUALS(herm.get(1)(-2),-4);
+		TS_ASSERT_EQUALS(herm.get(1)(0),-4);
 		TS_ASSERT_EQUALS(herm.get(4)(2),76);
 		TS_ASSERT_EQUALS(herm.get(4)(0),76);
 		TS_ASSERT_EQUALS(herm.get(4)(1),12);
