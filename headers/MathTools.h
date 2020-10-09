@@ -1,6 +1,8 @@
 #ifndef MATHTOOLS_H
 #define MATHTOOLS_H
 
+#include <functional>
+
 class MathTools {
     public:
         static double integrate(double (double));
