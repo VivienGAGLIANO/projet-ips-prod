@@ -1,5 +1,6 @@
-*.o
+main
 bin/*
 obj/*
+*.o
 
 .idea/
