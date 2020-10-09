@@ -1,7 +1,7 @@
 #ifndef HERMIT_H
 #define HERMIT_H
 
-#include <armadillo>
+#include <armadillo> // using tuple for fast Hermit polynom computing
 
 
 class Hermit {
