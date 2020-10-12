@@ -38,6 +38,14 @@ arma::colvec Hermit::get(int n) {
     return hermit_values.col(n);
 }
 
+/**
+ * << operator to print hermit object on stdout stream
+ *
+ * Prints out the hermit_values matrix, showing all computed ranks of polynoms, along the object's mesh. Use Hermit::insert_size to set matrix cells size.
+ * @param stream stream on which to add hermit print
+ * @param hermit object to print
+ * @return stream with hermit_values matrix printed on it
+ */
 std::ostream& operator<<(std::ostream &stream, const Hermit &hermit) {
     for (int z = 0; z < (int) hermit.hermit_values.n_cols; ++z) {
         for (int n = 0; n < (int) hermit.hermit_values.n_rows; ++n) {
