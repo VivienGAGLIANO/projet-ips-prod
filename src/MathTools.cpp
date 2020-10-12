@@ -5,7 +5,7 @@
 
 
 double MathTools::integrate(double f(double)) {
-	return 0;
+	return f(0);
 }
 
 
@@ -24,4 +24,13 @@ int MathTools::factorial(int n) {
 
 std::function<double(double)> MathTools::differentiate(std::function<double(double)> f) {
     return [f](double z) {return (f(z + h) - f(z)) / h;};
+}
+
+std::function<arma::colvec(arma::colvec)> MathTools::differentiate(std::function<arma::colvec(arma::colvec)> f) {
+    return [f](arma::colvec z)
+        {
+            arma::colvec h_vec = h * arma::colvec(z.n_rows).ones();
+            return (1 / h) * (f(z + h_vec) - f(z));
+        };
+
 }
