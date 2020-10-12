@@ -14,11 +14,16 @@
  * @param n
  * @param z
  */
-arma::colvec Schrodinger::solution(int n, arma::rowvec z) {
-    Hermit hermit(sqrt(m*w/h) * z);
-    return (1 / sqrt(pow(2, n) * MathTools::factorial(n))) * pow((m*w)/(pi*h), 0.25) * exp(-m*w*z*z / (2*h)) * hermit.get(n);
+arma::colvec Schrodinger::psi(int n, arma::colvec z) {
+    Hermit hermit(sqrt(m*w/h_bar) * z);
+    return (1 / sqrt(pow(2, n) * MathTools::factorial(n))) * pow((m*w)/(pi*h_bar), 0.25) * exp(-m*w*z*z / (2*h_bar)) * hermit.get(n);
 }
 
+arma::colvec Schrodinger::psi_second(int n, arma::colvec z){
+    arma::vec h_vec = arma::vec(z.n_rows).ones();
+    return (psi(n, z + h_vec) - psi(n, z)) % ((1 / h*h) * arma::vec(z.n_rows).ones()) - (psi(n, h_vec) - psi(n, h_vec)) % ((1 / h) * (arma::vec(z.n_rows).ones()));
+
+}
 
 /**
  * Checks the orthonormality 
