@@ -25,7 +25,7 @@ arma::colvec Schrodinger::solution(int n, arma::rowvec z) {
  */
 bool Schrodinger::orthonormality() {
     for (int m = 0; m <= 10; m++) {
-        for (int n = 0; m <= 10; m++) {
+        for (int n = 0; n <= 10; n++) {
             // TODO
             // if (MathTools::integrate() != (m == n) ? 1 : 0) {
             //     return false;
