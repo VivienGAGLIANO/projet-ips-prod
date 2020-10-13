@@ -121,9 +121,35 @@ class: toc
 # Tests unitaires
 
 
-// TODO : [insert tests code + results]
+Tests des polynômes d'Hermite:
+```c++
+void testHermit(void)
+	{
+		Hermit herm(arma::colvec({-2,0,2}));
+	  TS_ASSERT_EQUALS(herm.get(0)(0),1);
+		TS_ASSERT_EQUALS(herm.get(0)(1),1);
+		TS_ASSERT_EQUALS(herm.get(0)(2),1);
+    TS_ASSERT_EQUALS(herm.get(1)(2),4);
+  }
 
-
+```
+Tests des valeurs l'énergie:
+```c++
+void testSchrodingerPSI_ENERGY(void)
+	{
+		Schrodinger schro;
+	    int j =0;
+		int i =0;
+		arma::colvec z = arma::colvec({-2,-1,0,1,2,5});
+		arma::vec h_vec = arma::vec(z.n_rows).ones();
+		for( i = 0; i < 8; i++) {
+			arma::colvec value = (-schro.psi_second(i,z)+schro.psi(i,z)%schro.psi(i,z)) % (0.5*h_vec);
+			for (j = 0; j<6; j++) {
+				TS_ASSERT_DELTA(schro.energy(i,z)(j),value(j),0.00000001);
+			};
+		};
+	}
+```
 ---
 # Documentation
 
