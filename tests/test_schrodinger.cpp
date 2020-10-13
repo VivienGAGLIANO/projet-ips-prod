@@ -35,13 +35,13 @@ public:
 
 static class TestDescription_suite_TestSchrodinger_testSchrodingerPSI_SECOND : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_TestSchrodinger_testSchrodingerPSI_SECOND() : CxxTest::RealTestDescription( Tests_TestSchrodinger, suiteDescription_TestSchrodinger, 30, "testSchrodingerPSI_SECOND" ) {}
+ TestDescription_suite_TestSchrodinger_testSchrodingerPSI_SECOND() : CxxTest::RealTestDescription( Tests_TestSchrodinger, suiteDescription_TestSchrodinger, 26, "testSchrodingerPSI_SECOND" ) {}
  void runTest() { suite_TestSchrodinger.testSchrodingerPSI_SECOND(); }
 } testDescription_suite_TestSchrodinger_testSchrodingerPSI_SECOND;
 
 static class TestDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY() : CxxTest::RealTestDescription( Tests_TestSchrodinger, suiteDescription_TestSchrodinger, 46, "testSchrodingerPSI_ENERGY" ) {}
+ TestDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY() : CxxTest::RealTestDescription( Tests_TestSchrodinger, suiteDescription_TestSchrodinger, 42, "testSchrodingerPSI_ENERGY" ) {}
  void runTest() { suite_TestSchrodinger.testSchrodingerPSI_ENERGY(); }
 } testDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY;
 

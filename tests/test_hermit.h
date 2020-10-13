@@ -7,7 +7,7 @@ class TestHermit : public CxxTest::TestSuite
 	void testHermit(void)
 	{
 		Hermit herm(arma::colvec({-2,0,2}));
-	       	TS_ASSERT_EQUALS(herm.get(0)(0),1);
+	    TS_ASSERT_EQUALS(herm.get(0)(0),1);
 		TS_ASSERT_EQUALS(herm.get(0)(1),1);
 		TS_ASSERT_EQUALS(herm.get(0)(2),1);
 		TS_ASSERT_EQUALS(herm.get(1)(2),4);
