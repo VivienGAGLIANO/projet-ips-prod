@@ -1,3 +1,7 @@
+/**
+ * @file main.cpp
+ */
+
 #include <iostream>
 #include "headers/Schrodinger.h"
 
@@ -28,6 +32,7 @@ int main() {
 
     Schrodinger schro;
     arma::vec z = arma::linspace(start, end, N);
+    arma::vec psi_z = schro.psi(1, z);
 
     arma::mat psi;
     arma::mat psi_second;
