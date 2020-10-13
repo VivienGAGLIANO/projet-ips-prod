@@ -20,19 +20,19 @@
 class: titlepage
 
 .title[
-Presentation template - [Fork me !!!](https://github.com/dubrayn/dubrayn.github.io)
+Projet IPS-Dev - [Equation 1D-HO Schrödinger](https://github.com/dubrayn/dubrayn.github.io)
 ]
 
 .subtitle[
-N. Dubray - ENSIIE - 2020
+M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020
 ]
 
 .row[
-`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+`$$\hat{H}_{(z)}\psi_n(z) = E_n\psi_n(z)$$`
 ]
 
 .footnote[
-[:book:](../index.html)
+[:book:](index.html)
 ]
 
 ???
@@ -53,8 +53,89 @@ layout: true
 class: animated fadeIn middle numbers
 
 .footnote[
-Presentation template - N. Dubray - ENSIIE - 2020 - [:book:](../index.html)
+M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020 - [:book:](index.html)
 ]
+
+---
+# Objectifs du projet
+
+* Implémenter les solutions de l'équation $\psi_n(z) = \frac{1}{\sqrt{2^nn\, !}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} z\right)$
+
+* Calculer les niveaux d'énergie $E_n = \frac{\hat{H}_(z)\psi_n(z)}{\psi_n(z)}$
+
+* Vérifier l'orthonormalité des solutions $\forall n,m \displaystyle \int \psi_n^*(z)\psi_m(z)\, dz = \delta_{n,m}$
+---
+class: toc
+#Sommaire
+
+
+1. Structure du projet
+
+2. Résultats obtenus
+
+3. Outils de développement utilisés
+
+---
+# Diagramme de classe
+
+
+// TODO : [insert uml diagram]
+
+
+---
+# Chaîne de compilation : diagramme de dépendance Makefile
+
+
+// TODO : [insert makefile dependancy diagram]
+
+
+---
+# Tracé de la solution
+
+
+// TODO : [insert psi plot]
+
+
+---
+# Niveaux d'énergie
+
+
+
+// TODO : [insert energy plot]
+
+
+
+---
+# Orthonormalité
+
+
+
+// TODO : [insert ortho check]
+
+
+---
+# Tests unitaires
+
+
+// TODO : [insert tests code + results]
+
+
+---
+# Documentation
+
+
+// TODO : [insert doxygen code comment + generated documentation]
+
+
+
+---
+# Git
+
+
+
+// TODO : [insert git commit message + git commit graph]
+
+
 
 ---
 
