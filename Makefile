@@ -28,6 +28,10 @@ tests:
 	./tests/testHermit
 	./tests/testSchrodinger
 
+.PHONY: doc
+doc:
+	doxygen Doxyfile
+
 .PHONY: clean re
 clean:
 	rm -f $(OBJECTS) $(TARGET) *.out
