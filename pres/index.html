@@ -100,7 +100,6 @@ class: toc
 # Tracé de la solution
 
 
-Solution de la fonction Psi avec différentes valeurs de n en fonction de z:
 ![](images/psi.png)
 
 
@@ -108,7 +107,6 @@ Solution de la fonction Psi avec différentes valeurs de n en fonction de z:
 # Niveaux d'énergie
 
 
-Tracé de différents niveaux d'énergie:
 ![](images/energy.png)
 
 
@@ -116,10 +114,23 @@ Tracé de différents niveaux d'énergie:
 ---
 # Orthonormalité
 
-
-
-// TODO : [insert ortho check]
-
+```C++
+bool Schrodinger::orthonormality() {
+    #include "../headers/GaussHermitWeights.h"
+    for (int p = 0; p <= 10; p++) {
+        for (int q = 0; q <= 10; q++) {
+            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
+            double c2 = c1 * sqrt(h_bar / (m*w));
+            Hermit hermit(X);
+            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
+            double integral = c2 * I(0);
+            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
+                return false;
+        }
+    }
+    return true;
+}
+```
 
 ---
 # Tests unitaires
@@ -159,16 +170,6 @@ void testSchrodingerPSI_ENERGY(void)
 ![](images/tests.png)
 
 
-<!--
--&#45;&#45;
-# Documentation
-
-
-// TODO : [insert doxygen code comment + generated documentation]
-
-
-
--->
 ---
 # Git
 
