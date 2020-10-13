@@ -1,5 +1,11 @@
+/**
+ * @file main.cpp
+ */
+
 #include <iostream>
 #include "headers/Schrodinger.h"
+
+
 
 int main() {
     int start = -5;
