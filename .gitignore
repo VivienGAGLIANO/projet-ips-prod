@@ -3,6 +3,8 @@ bin/*
 obj/*
 *.o
 
+*.csv
+
 .idea/
 
 headers/GaussHermitWeights.h
