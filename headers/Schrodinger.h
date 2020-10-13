@@ -12,11 +12,11 @@
  */
 class Schrodinger {
     public:
-        const double m = 1; /** Particle's mass */
-        const double w = 1; /** Particle's pulsation */
-        const double pi = 1; /** Pi */
-        const double h_bar = 1; /** Planck's constant */
-        const double h = 1e-10; /** Derivation constant */
+        const double m = 1; /** < Particle's mass */
+        const double w = 1; /** < Particle's pulsation*/
+        const double pi = 1; /** < Pi */
+        const double h_bar = 1; /** < Planck's constant*/
+        const double h = 1e-10; /** < Derivation constant */
 
         arma::colvec psi(int, arma::colvec);
         arma::colvec psi_second(int, arma::colvec);
