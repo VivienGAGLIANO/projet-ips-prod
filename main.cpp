@@ -5,19 +5,26 @@
 #include <iostream>
 #include "headers/Schrodinger.h"
 
-void generate_csv(std::string filename, std::string name, arma::vec z, arma::mat psi) {
+/**
+ * Generates a csv file containing the z vector as the first column, and the columns of the matrix mat as the next columns
+ * @param filename the filename of the csv to create (or override if existing)
+ * @param name name of the variable in the matrix. It will be printed in the header of the csv file
+ * @param z the first column of the csv file
+ * @param mat the matrix with the next columns to be written in the csv file
+ */
+void generate_csv(std::string filename, std::string name, arma::vec z, arma::mat mat) {
     int N = z.n_elem;
     std::ofstream csv_file;
     csv_file.open(filename);
     csv_file << "z";
-    for (int n = 0; n < (int) psi.n_cols; n++) {
+    for (int n = 0; n < (int) mat.n_cols; n++) {
         csv_file << "," << name << "_" << n << "(z)";
     }
     csv_file << std::endl;
     for (int i = 0; i < N; i++) {
         csv_file << z(i);
-        for (int n = 0; n < (int) psi.n_cols; n++) {
-            csv_file << ',' << psi(i, n);
+        for (int n = 0; n < (int) mat.n_cols; n++) {
+            csv_file << ',' << mat(i, n);
         }
         csv_file << std::endl;
     }
