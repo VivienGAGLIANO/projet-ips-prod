@@ -4,10 +4,6 @@
  */
 
 
-double MathTools::integrate(double f(double)) {
-	return 0;
-}
-
 
 /**
  * Computes the factorial
