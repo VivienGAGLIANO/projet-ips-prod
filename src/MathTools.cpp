@@ -11,6 +11,7 @@
  * This recursive function computes the factorial of n
  * 
  * @param n integer to computes the factorial of
+ * @return the factorial of n
  */
 int MathTools::factorial(int n) {
     if (n == 0 || n == 1)
