@@ -19,7 +19,18 @@ obj/%.o: src/%.cpp headers/%.h
 
 %.o: obj/%.o
 
+.PHONY: tests
+tests: 
+	cxxtestgen --error-printer -o tests/testHermit.cpp tests/test_hermit.h
+	cxxtestgen --error-printer -o tests/testSchrodinger.cpp tests/test_schrodinger.h
+	g++ -o tests/testHermit tests/testHermit.cpp
+	g++ -o tests/testSchrodinger tests/testSchrodinger.cpp
+	./tests/testHermit
+	./tests/testSchrodinger
+
 .PHONY: clean re
 clean:
 	rm -f $(OBJECTS) $(TARGET) *.out
+	rm -f tests/testHermit tests/testSchrodinger tests/testHermit.cpp tests/testSchrodinger.cpp
+
 re: clean all
