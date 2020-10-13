@@ -31,6 +31,6 @@ tests:
 .PHONY: clean re
 clean:
 	rm -f $(OBJECTS) $(TARGET) *.out
-	rm -f tests/testHermit tests/testSchrodinger
+	rm -f tests/testHermit tests/testSchrodinger tests/testHermit.cpp tests/testSchrodinger.cpp
 
 re: clean all
