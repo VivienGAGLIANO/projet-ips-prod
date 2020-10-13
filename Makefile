@@ -5,6 +5,8 @@ TARGET = main
 TEST = .idea/quick_test
 
 all: $(TARGET)
+run: all
+	./$(TARGET)
 
 $(TARGET): $(TARGET).cpp $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
