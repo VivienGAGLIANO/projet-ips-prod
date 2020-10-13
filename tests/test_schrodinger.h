@@ -30,7 +30,17 @@ class TestSchrodinger : public CxxTest::TestSuite
 	void testSchrodingerPSI_SECOND(void)
 	{
 		Schrodinger schro;
-	    /*TS_ASSERT_EQUALS(schro.psi_second(5,{4.5,7,8}),0);*/
+		int j =0;
+		int i =0;
+		const double h = 1e-10; 
+		arma::colvec z = arma::colvec({-2,-1,0,1,2,5});
+		arma::vec h_vec = arma::vec(z.n_rows).ones();
+		for( i = 0; i < 8; i++) {
+			arma::colvec value = (schro.psi(i, z + 2* h_vec) - 2 * schro.psi(i, z+h_vec) + schro.psi(i, z)) % ((1 / h*h)*h_vec);
+			for (j = 0; j<6; j++) {
+				TS_ASSERT_DELTA(schro.psi_second(i,z)(j),value(j),0.00000001);
+			};
+		};
 	}
 
 	void testSchrodingerPSI_ENERGY(void)

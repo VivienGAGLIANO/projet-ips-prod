@@ -41,7 +41,7 @@ public:
 
 static class TestDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY() : CxxTest::RealTestDescription( Tests_TestSchrodinger, suiteDescription_TestSchrodinger, 36, "testSchrodingerPSI_ENERGY" ) {}
+ TestDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY() : CxxTest::RealTestDescription( Tests_TestSchrodinger, suiteDescription_TestSchrodinger, 46, "testSchrodingerPSI_ENERGY" ) {}
  void runTest() { suite_TestSchrodinger.testSchrodingerPSI_ENERGY(); }
 } testDescription_suite_TestSchrodinger_testSchrodingerPSI_ENERGY;
 
