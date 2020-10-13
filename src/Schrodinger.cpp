@@ -29,7 +29,7 @@ arma::colvec Schrodinger::psi(int n, arma::colvec z) {
  */
 arma::colvec Schrodinger::psi_second(int n, arma::colvec z){
     arma::vec h_vec = arma::vec(z.n_rows).ones();
-    return (psi(n, z + h_vec) - psi(n, z)) % ((1 / h*h) * arma::vec(z.n_rows).ones()) - (psi(n, h_vec) - psi(n, h_vec)) % ((1 / h) * (arma::vec(z.n_rows).ones()));
+    return (psi(n, z + 2*h_vec) - 2*psi(n, z + h_vec) + psi(n, z)) % h_vec.transform([](double z) {return 1 / (z*z);});
 }
 
 /**
