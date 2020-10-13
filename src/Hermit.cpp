@@ -2,15 +2,15 @@
 #include <iomanip> // hermit << operator formatting
 
 /**
- * Computes and evaluates hermit polynom
+ * Computes and evaluates hermit polynomial
  * 
- * This function uses the recursion relation definition of the hermit polynoms to fill the values matrix up to rank n polynoms with the object's mesh 
+ * This function uses the recursion relation definition of the hermit polynomials to fill the values matrix up to rank n polynomials with the object's mesh
  * 
- * @param n rank of the desired polynom
+ * @param n rank of the desired polynomial
  */
 void Hermit::hermit(int n) {
     if (n < 0) {
-        throw "Invalid polynom index. Positive integers only.";
+        throw "Invalid polynomial index. Positive integers only.";
     }
     int m = hermit_values.n_cols;
     while (m <= n) {
@@ -26,10 +26,10 @@ void Hermit::hermit(int n) {
     
 
 /**
- * Accessor for n-th hermit polynom
+ * Accessor for n-th hermit polynomial
  * 
- * @param n rank of the desired polynom
- * @return Returns evaluation of n-th polynom for the object's mesh
+ * @param n rank of the desired polynomial
+ * @return Returns evaluation of n-th polynomial for the object's mesh
  */
 arma::colvec Hermit::get(int n) {
     if ((int) hermit_values.n_cols <= n) {
@@ -41,7 +41,7 @@ arma::colvec Hermit::get(int n) {
 /**
  * << operator to print hermit object on stdout stream
  *
- * Prints out the hermit_values matrix, showing all computed ranks of polynoms, along the object's mesh. Use Hermit::insert_size to set matrix cells size.
+ * Prints out the hermit_values matrix, showing all computed ranks of polynomials, along the object's mesh. Use Hermit::insert_size to set matrix cells size.
  * @param stream stream on which to add hermit print
  * @param hermit object to print
  * @return stream with hermit_values matrix printed on it
