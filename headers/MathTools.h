@@ -1,9 +1,10 @@
+#ifndef MATHTOOLS_H
+#define MATHTOOLS_H
+
 /**
  * @file MathTools.h
  */
 
-#ifndef MATHTOOLS_H
-#define MATHTOOLS_H
 
 #include <functional>
 

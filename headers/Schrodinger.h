@@ -1,9 +1,9 @@
+#ifndef SCHRODINGER_H
+#define SCHRODINGER_H
+
 /**
  * @file Schrodinger.h
  */
-
-#ifndef SCHRODINGER_H
-#define SCHRODINGER_H
 
 #include <armadillo>
 
