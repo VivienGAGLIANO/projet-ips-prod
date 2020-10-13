@@ -1,12 +1,12 @@
-#include "../headers/Schrodinger.h"
-#include "../headers/MathTools.h"
-#include "../headers/Hermit.h"
-#include <cmath>
-
 /**
  * @file Schrodinger.cpp
  */
 
+
+#include "../headers/Schrodinger.h"
+#include "../headers/MathTools.h"
+#include "../headers/Hermit.h"
+#include <cmath>
 
 /**
  * Vectorized solution of the Schrodinger equation
@@ -45,7 +45,11 @@ arma::vec Schrodinger::energy(int n, arma::vec z) {
 }
 
 /**
- * Checks the orthonormality 
+ * Checks the orthonormality for the 11 first energy level
+ *
+ * Computes integral scalar product between two energy-level solutions using Gauss-Hermit quadrature method.
+ * @warning When checking normality, i.e. (psi_n, psi_n) = 1, the results are slightly different than 1 because of physic constant being set to 1. The error margin for normality is thus set to 1.0.
+ * @return true if these solutions are orthonormal, false else
  */
 bool Schrodinger::orthonormality() {
     #include "../headers/GaussHermitWeights.h"

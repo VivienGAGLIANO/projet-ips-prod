@@ -1,5 +1,11 @@
+/**
+ * @file Hermit.cpp
+ */
+
 #include "../headers/Hermit.h"
 #include <iomanip> // hermit << operator formatting
+
+
 
 /**
  * Computes and evaluates hermit polynomial
