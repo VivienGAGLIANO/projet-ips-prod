@@ -4,10 +4,6 @@
  */
 
 
-double MathTools::integrate(double f(double)) {
-	return 0;
-}
-
 
 /**
  * Computes the factorial
@@ -15,13 +11,10 @@ double MathTools::integrate(double f(double)) {
  * This recursive function computes the factorial of n
  * 
  * @param n integer to computes the factorial of
+ * @return the factorial of n
  */
 int MathTools::factorial(int n) {
     if (n == 0 || n == 1)
         return 1;
     return n * factorial(n-1);
-}
-
-std::function<double(double)> MathTools::differentiate(std::function<double(double)> f) {
-    return [f](double z) {return (f(z + h) - f(z)) / h;};
 }

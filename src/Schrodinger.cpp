@@ -29,7 +29,7 @@ arma::colvec Schrodinger::psi(int n, arma::colvec z) {
  */
 arma::colvec Schrodinger::psi_second(int n, arma::colvec z){
     arma::vec h_vec = arma::vec(z.n_rows).ones();
-    return (psi(n, z + h_vec) - psi(n, z)) % ((1 / h*h) * arma::vec(z.n_rows).ones()) - (psi(n, h_vec) - psi(n, h_vec)) % ((1 / h) * (arma::vec(z.n_rows).ones()));
+    return (psi(n, z + 2*h_vec) - 2*psi(n, z + h_vec) + psi(n, z)) % h_vec.transform([](double z) {return 1 / (z*z);});
 }
 
 /**
@@ -48,12 +48,16 @@ arma::vec Schrodinger::energy(int n, arma::vec z) {
  * Checks the orthonormality 
  */
 bool Schrodinger::orthonormality() {
-    for (int m = 0; m <= 10; m++) {
-        for (int n = 0; n <= 10; n++) {
-            // TODO
-            // if (MathTools::integrate() != (m == n) ? 1 : 0) {
-            //     return false;
-            // }
+    #include "../headers/GaussHermitWeights.h"
+    for (int p = 0; p <= 10; p++) {
+        for (int q = 0; q <= 10; q++) {
+            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
+            double c2 = c1 * sqrt(h_bar / (m*w));
+            Hermit hermit(X);
+            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
+            double integral = c2 * I(0);
+            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
+                return false;
         }
     }
     return true;
