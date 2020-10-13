@@ -41,7 +41,7 @@ arma::colvec Schrodinger::psi_second(int n, arma::colvec z){
 arma::vec Schrodinger::energy(int n, arma::vec z) {
     Schrodinger sdg;
     arma::vec psi = sdg.psi(n, z);
-    return (-pow(sdg.h_bar, 2) / (2*sdg.m) * sdg.psi_second(n, z) + 0.5 * sdg.m * pow(sdg.w, 2) * (z%z%psi)) % psi.transform([](double z) {return 1 / z;});
+    return (-pow(sdg.h_bar, 2) / (2*sdg.m) * sdg.psi_second(n, z) + 0.5 * sdg.m * pow(sdg.w, 2) * (psi%psi));
 }
 
 /**
