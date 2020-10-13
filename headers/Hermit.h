@@ -1,9 +1,10 @@
+#ifndef HERMIT_H
+#define HERMIT_H
+
 /**
  * @file Hermit.h
  */
 
-#ifndef HERMIT_H
-#define HERMIT_H
 
 #include <armadillo> // using tuple for fast Hermit polynom computing
 

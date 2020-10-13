@@ -1,8 +1,9 @@
+#include "../headers/MathTools.h"
+
 /**
  * @file MathTools.cpp
  */
 
-#include "../headers/MathTools.h"
 
 /**
  * Computes the factorial

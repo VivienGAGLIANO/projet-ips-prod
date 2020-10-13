@@ -1,12 +1,12 @@
-/**
- * @file Schrodinger.cpp
- */
-
-
 #include "../headers/Schrodinger.h"
 #include "../headers/MathTools.h"
 #include "../headers/Hermit.h"
 #include <cmath>
+
+/**
+ * @file Schrodinger.cpp
+ */
+
 
 /**
  * Vectorized solution of the Schrodinger equation
