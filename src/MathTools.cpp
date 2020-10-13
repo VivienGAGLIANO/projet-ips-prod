@@ -21,7 +21,3 @@ int MathTools::factorial(int n) {
         return 1;
     return n * factorial(n-1);
 }
-
-std::function<double(double)> MathTools::differentiate(std::function<double(double)> f) {
-    return [f](double z) {return (f(z + h) - f(z)) / h;};
-}
