@@ -48,12 +48,16 @@ arma::vec Schrodinger::energy(int n, arma::vec z) {
  * Checks the orthonormality 
  */
 bool Schrodinger::orthonormality() {
-    for (int m = 0; m <= 10; m++) {
-        for (int n = 0; n <= 10; n++) {
-            // TODO
-            // if (MathTools::integrate() != (m == n) ? 1 : 0) {
-            //     return false;
-            // }
+    #include "../headers/GaussHermitWeights.h"
+    for (int p = 0; p <= 10; p++) {
+        for (int q = 0; q <= 10; q++) {
+            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
+            double c2 = c1 * sqrt(h_bar / (m*w));
+            Hermit hermit(X);
+            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
+            double integral = c2 * I(0);
+            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
+                return false;
         }
     }
     return true;
