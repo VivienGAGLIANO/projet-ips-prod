@@ -61,7 +61,7 @@ M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020 - [:book:](index.html)
 
 * Implémenter les solutions de l'équation $\psi_n(z) = \frac{1}{\sqrt{2^nn\, !}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} z\right)$
 
-* Calculer les niveaux d'énergie `$E_n = \frac{\hat{H}_(z)\psi_n(z)}{\psi_n(z)}$`
+* Calculer les niveaux d'énergie `$E_n = \frac{\hat{H}_{(z)}\psi_n(z)}{\psi_n(z)}$`
 
 * Vérifier l'orthonormalité des solutions `$\forall n,m \displaystyle \int \psi_n^*(z)\psi_m(z)\, dz = \delta_{n,m}$`
 ---
@@ -87,12 +87,51 @@ class: toc
 
 
 ---
-# Chaîne de compilation : diagramme de dépendance Makefile
+# Chaîne de compilation : Makefile
 
 
-.hcenter.w60[
-![](images/makefile.png)
-]
+```Makefile
+CC = g++
+CFLAGS = -Wall -Wextra -larmadillo -lm
+OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Hermit.o
+TARGET = main
+WEIGHTS_N = 20
+
+all: headers/GaussHermitWeights.h $(TARGET)
+run: all
+	./$(TARGET)
+
+headers/GaussHermitWeights.h: generate_gausshermit_weights.py
+	./generate_gausshermit_weights.py $(WEIGHTS_N)
+
+$(TARGET): $(TARGET).cpp $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+obj/%.o: src/%.cpp headers/%.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: obj/%.o
+
+.PHONY: tests
+tests: 
+	cxxtestgen --error-printer -o tests/testHermit.cpp tests/test_hermit.h
+	cxxtestgen --error-printer -o tests/testSchrodinger.cpp tests/test_schrodinger.h
+	g++ -o tests/testHermit tests/testHermit.cpp
+	g++ -o tests/testSchrodinger tests/testSchrodinger.cpp
+	./tests/testHermit
+	./tests/testSchrodinger
+
+.PHONY: doc
+doc:
+	doxygen Doxyfile
+
+.PHONY: clean re
+clean:
+	rm -f $(OBJECTS) $(TARGET) *.out
+	rm -f tests/testHermit tests/testSchrodinger tests/testHermit.cpp tests/testSchrodinger.cpp
+
+re: clean all
+```
 ‌
 
 
@@ -149,7 +188,7 @@ void testHermit(void)
 
 ```
 Tests des valeurs l'énergie:
-```c++
+```C++
 void testSchrodingerPSI_ENERGY(void)
 	{
 		Schrodinger schro;
