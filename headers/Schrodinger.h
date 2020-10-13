@@ -2,7 +2,6 @@
 #define SCHRODINGER_H
 
 #include <armadillo>
-#include "GaussHermitWeights.h"
 
 class Schrodinger {
     public:
