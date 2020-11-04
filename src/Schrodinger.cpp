@@ -50,19 +50,20 @@ arma::vec Schrodinger::energy(int n, arma::vec z) {
  * Computes integral scalar product between two energy-level solutions using Gauss-Hermit quadrature method.
  * @warning When checking normality, i.e. (psi_n, psi_n) = 1, the results are slightly different than 1 because of physic constant being set to 1. The error margin for normality is thus set to 1.0.
  * @return true if these solutions are orthonormal, false else
+ * @deprecated
  */
-bool Schrodinger::orthonormality() {
-    #include "../headers/GaussHermitWeights.h"
-    for (int p = 0; p <= 10; p++) {
-        for (int q = 0; q <= 10; q++) {
-            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
-            double c2 = c1 * sqrt(h_bar / (m*w));
-            Hermit hermit(X);
-            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
-            double integral = c2 * I(0);
-            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
-                return false;
-        }
-    }
-    return true;
-}
+//bool Schrodinger::orthonormality() {
+//    #include "../headers/GaussHermitWeights.h"
+//    for (int p = 0; p <= 10; p++) {
+//        for (int q = 0; q <= 10; q++) {
+//            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
+//            double c2 = c1 * sqrt(h_bar / (m*w));
+//            Hermit hermit(X);
+//            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
+//            double integral = c2 * I(0);
+//            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
+//                return false;
+//        }
+//    }
+//    return true;
+//}

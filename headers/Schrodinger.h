@@ -21,7 +21,7 @@ class Schrodinger {
         arma::colvec psi(int, arma::colvec);
         arma::colvec psi_second(int, arma::colvec);
         arma::colvec energy(int, arma::colvec);
-        bool orthonormality();
+        bool orthonormality(); /**< @deprecated */
 
     private:
 
