@@ -25,11 +25,9 @@ class Poly {
         int insert_size = 5; /*!< Sets the cell size for << operator.*/
 
     private:
-        arma::colvec mesh_hermite; /*!< Mesh on which polynomials of this instance are evaluated. Cannot be changed.*/
-        arma::colvec mesh_laguerre; /*!< Mesh on which polynomials of this instance are evaluated. Cannot be changed.*/
+        arma::colvec mesh; /*!< Mesh on which polynomials of this instance are evaluated. Cannot be changed.*/
         arma::mat hermite_values; /*!< Matrix in which calcHermite evaluation are stored. */
-        arma::mat laguerre_values; /*!< Matrix in which calcLaguerre evaluation are stored. */
-        friend std::ostream& operator<<(std::ostream&, const Poly&);
+        arma::cube laguerre_values; /*!< Matrix in which calcLaguerre evaluation are stored. */
 };
 
 
