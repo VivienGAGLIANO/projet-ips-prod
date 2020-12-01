@@ -3,24 +3,24 @@
 
 #include <armadillo>
 
-class Basis{
+class Basis {
     public:
         Basis(double, double, double, double);
         int mMax;
         arma::vec nMax;
         arma::mat n_zMax;
 
-        arma::vec rPart();
+        arma::vec rPart(arma::vec, int, int);
         arma::vec zPart(arma::vec, int);
 
     private:
         double br;
         double bz;
-        double Q;
         double N;
+        double Q;
+
 
         double n_zmax_i(int);
-
 };
 
 
