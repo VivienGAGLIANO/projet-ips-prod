@@ -3,9 +3,11 @@ bin/*
 obj/*
 *.o
 doc/*
-
-*.csv
+tests/*.cpp
+tests/TestMandatory00
+tests/TestMandatory01
+tests/TestMandatory02
+tests/TestMandatory03
 
 .idea/
-
-headers/GaussHermitWeights.h
+*.csv
