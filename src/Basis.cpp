@@ -5,7 +5,6 @@
 
 Basis::Basis(double br, double bz, double N, double Q) : br(br), bz(bz), N(N), Q(Q) {
     int i = 0;
-    std::cout << std::endl;
     while (n_zmax_i(i) >= 1) {
         i++;
     }
@@ -33,7 +32,7 @@ double Basis::n_zmax_i(int i) {
 
 arma::vec Basis::rPart(arma::vec r, int m, int n) {
     Poly poly{};
-    double cst = (1/(br * sqrt(M_PIl))) * sqrt(MathTools::factorial(n) / MathTools::factorial(n + abs(m))); // pow(r / br, abs(m))
+    double cst = (1/(br * sqrt(M_PIl))) * sqrt((double) MathTools::factorial(n) / MathTools::factorial(n + abs(m)));
     arma::vec exp = arma::exp(- r % r / (2 * br * br));
     poly.calcLaguerre(abs(m), n, r % r / (br * br));
     return cst * exp % arma::pow(r / br, abs(m)) % poly.laguerre(abs(m), n);
@@ -44,5 +43,5 @@ arma::vec Basis::zPart(arma::vec z, int n_z) {
     double cst = 1 / sqrt(bz * pow(2, n_z) * sqrt(M_PIl) * MathTools::factorial(n_z));
     arma::vec exp = arma::exp(- z % z / (2 * bz * bz));
     poly.calcHermite(n_z, z / bz);
-    return exp % poly.hermite(n_z) * cst;
+    return cst * exp % poly.hermite(n_z);
 }
