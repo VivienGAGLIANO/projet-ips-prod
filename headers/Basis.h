@@ -5,16 +5,17 @@
 
 class Basis{
     public:
+        Basis(double, double, double, double);
+        int mMax;
+        arma::vec nMax;
+        arma::mat n_zMax;
 
     private:
         double br;
         double bz;
         double Q;
         double N;
-        int mMax;
-        arma::vec nMax;
-        arma::mat n_zMax;
-        Basis(double, double, double, double);
+
         double n_zmax_i(int);
 
 };
