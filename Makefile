@@ -20,7 +20,7 @@ tests/%.cpp: tests/%.h
 	cxxtestgen --error-printer $^ -o $@
 
 tests/%: tests/%.cpp $(OBJECTS)
-	$(CC) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 .PHONY: tests
 tests: $(TESTS) $(OBJECTS)
