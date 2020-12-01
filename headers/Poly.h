@@ -18,12 +18,17 @@ class Poly {
     public:
         Poly(){};
         void calcHermite(int, arma::vec);
-        arma::vec hermite(int);/*!< Getter for Hermite polynomials values.*/
+        arma::vec hermite(int); /*!< Getter for Hermite polynomials values.*/
+        void calcLaguerre(int, int, arma::vec);
+        arma::vec laguerre(int, int); /*!< Getter for Laguerre polynomials values.*/
+        int m_laguerre;
         int insert_size = 5; /*!< Sets the cell size for << operator.*/
 
     private:
         arma::colvec mesh_hermite; /*!< Mesh on which polynomials of this instance are evaluated. Cannot be changed.*/
+        arma::colvec mesh_laguerre; /*!< Mesh on which polynomials of this instance are evaluated. Cannot be changed.*/
         arma::mat hermite_values; /*!< Matrix in which calcHermite evaluation are stored. */
+        arma::mat laguerre_values; /*!< Matrix in which calcLaguerre evaluation are stored. */
         friend std::ostream& operator<<(std::ostream&, const Poly&);
 };
 
