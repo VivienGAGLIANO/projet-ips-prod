@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall -Wextra -larmadillo -lm
 OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Poly.o obj/Basis.o
-TESTS = tests/*.h
+TESTS = tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/TestMandatory03
 TARGET = main
 
 all: $(TARGET)
@@ -19,23 +19,12 @@ obj/%.o: src/%.cpp headers/%.h
 tests/%.cpp: tests/%.h
 	cxxtestgen --error-printer $^ -o $@
 
-tests/%: tests/%.cpp
-	$(CC) -o $@ $<
+tests/%: tests/%.cpp $(OBJECTS)
+	$(CC) -o $@ $^
 
 .PHONY: tests
-tests: $(TESTS) obj/Poly.o obj/Basis.o
-	cxxtestgen --error-printer -o tests/TestMandatory00.cpp tests/TestMandatory00.h
-	cxxtestgen --error-printer -o tests/TestMandatory01.cpp tests/TestMandatory01.h
-	cxxtestgen --error-printer -o tests/TestMandatory02.cpp tests/TestMandatory02.h
-	cxxtestgen --error-printer -o tests/TestMandatory03.cpp tests/TestMandatory03.h
-	$(CC) $(CFLAGS) -o tests/TestMandatory00 tests/TestMandatory00.cpp obj/Poly.o
-	$(CC) $(CFLAGS) -o tests/TestMandatory01 tests/TestMandatory01.cpp obj/Basis.o
-	$(CC) $(CFLAGS) -o tests/TestMandatory02 tests/TestMandatory02.cpp obj/Basis.o
-	$(CC) $(CFLAGS) -o tests/TestMandatory03 tests/TestMandatory03.cpp obj/Basis.o
-	./tests/TestMandatory00
-	./tests/TestMandatory01
-	./tests/TestMandatory02
-	./tests/TestMandatory03
+tests: $(TESTS) $(OBJECTS)
+	for test in $(TESTS); do $$test; done
 
 .PHONY: doc
 doc:
@@ -44,7 +33,6 @@ doc:
 .PHONY: clean re
 clean:
 	rm -f $(OBJECTS) $(TARGET) *.out
-	rm -f tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/TestMandatory03
-	rm -f tests/TestMandatory00.cpp tests/TestMandatory01.cpp tests/TestMandatory02.cpp tests/TestMandatory03.cpp
+	rm -f $(TESTS) tests/*.cpp
 
 re: clean all
