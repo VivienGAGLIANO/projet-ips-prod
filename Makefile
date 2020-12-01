@@ -28,10 +28,10 @@ tests: $(TESTS) obj/Poly.o obj/Basis.o
 	cxxtestgen --error-printer -o tests/TestMandatory01.cpp tests/TestMandatory01.h
 	cxxtestgen --error-printer -o tests/TestMandatory02.cpp tests/TestMandatory02.h
 	cxxtestgen --error-printer -o tests/TestMandatory03.cpp tests/TestMandatory03.h
-	g++ -o tests/TestMandatory00 tests/TestMandatory00.cpp obj/Poly.o
-	g++ -o tests/TestMandatory01 tests/TestMandatory01.cpp obj/Basis.o
-	g++ -o tests/TestMandatory02 tests/TestMandatory02.cpp obj/Basis.o
-	g++ -o tests/TestMandatory03 tests/TestMandatory03.cpp obj/Basis.o
+	$(CC) $(CFLAGS) -o tests/TestMandatory00 tests/TestMandatory00.cpp obj/Poly.o
+	$(CC) $(CFLAGS) -o tests/TestMandatory01 tests/TestMandatory01.cpp obj/Basis.o
+	$(CC) $(CFLAGS) -o tests/TestMandatory02 tests/TestMandatory02.cpp obj/Basis.o
+	$(CC) $(CFLAGS) -o tests/TestMandatory03 tests/TestMandatory03.cpp obj/Basis.o
 	./tests/TestMandatory00
 	./tests/TestMandatory01
 	./tests/TestMandatory02
