@@ -7,6 +7,7 @@
 class TestMandatory00 : public CxxTest::TestSuite {
     public:
     void testPoly(void) {
+        // Mandatory test #00 - Hermite and Laguerre polynomials
         Poly poly;
         arma::vec zVals, calcVals, targetVals;
         zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
