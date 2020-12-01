@@ -10,6 +10,9 @@ class Basis{
         arma::vec nMax;
         arma::mat n_zMax;
 
+        arma::vec rPart();
+        arma::vec zPart(arma::vec, int);
+
     private:
         double br;
         double bz;
@@ -21,4 +24,4 @@ class Basis{
 };
 
 
-#endif
+#endif // BASIS_H
