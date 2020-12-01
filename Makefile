@@ -18,14 +18,14 @@ obj/%.o: src/%.cpp headers/%.h
 
 .PHONY: tests
 tests: 
-	cxxtestgen --error-printer -o tests/testHermit.cpp tests/test_hermit.h
-	cxxtestgen --error-printer -o tests/testSchrodinger.cpp tests/test_schrodinger.h
+#	cxxtestgen --error-printer -o tests/testHermit.cpp tests/test_hermit.h
+#	cxxtestgen --error-printer -o tests/testSchrodinger.cpp tests/test_schrodinger.h
 	cxxtestgen --error-printer -o tests/TestMandatory00.cpp tests/TestMandatory00.h
-	g++ -o tests/testHermit tests/testHermit.cpp
-	g++ -o tests/testSchrodinger tests/testSchrodinger.cpp
+#	g++ -o tests/testHermit tests/testHermit.cpp
+#	g++ -o tests/testSchrodinger tests/testSchrodinger.cpp
 	g++ -o tests/TestMandatory00 tests/TestMandatory00.cpp obj/Poly.o
-	./tests/testHermit
-	./tests/testSchrodinger
+#	./tests/testHermit
+#	./tests/testSchrodinger
 	./tests/TestMandatory00
 
 .PHONY: doc
