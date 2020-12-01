@@ -19,10 +19,6 @@ void Poly::calcHermite(int n, arma::vec mesh) {
         throw "Invalid polynomial index. Positive integers only.";
     }
     this->mesh = mesh;
-//    if (!arma::approx_equal(mesh_hermite, mesh, "absdiff", 1E-10)){
-//        mesh_hermite = mesh;
-//        hermite_values = arma::mat(mesh_hermite.n_elem, 1).ones();
-//    }
     hermite_values = arma::mat(mesh.n_elem, 1).ones();
     int m = hermite_values.n_cols;
     while (m <= n) {
@@ -59,7 +55,7 @@ void Poly::calcLaguerre(int m_max, int n_max, arma::vec mesh) {
             if (n == 1)
                 next_col = 1 + m - mesh;
             else
-                next_col = (2+(m-1-mesh)/n) % current_slice.col(n-1) - (1 + (m-1)/n) * current_slice.col(n-2);
+                next_col = (2 + (m-1-mesh)/n) % current_slice.col(n-1) - (1 + (double) (m-1)/n) * current_slice.col(n-2);
             current_slice.insert_cols(n, next_col);
             n++;
         }
