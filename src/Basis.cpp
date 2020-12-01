@@ -9,20 +9,16 @@ Basis::Basis(double br, double bz, double N, double Q) : br(br), bz(bz), N(N), Q
         std::cout << n_zmax_i(i) << " | " << i << std::endl;
         i++;
     }
-    std::cout << n_zmax_i(i) << std::endl;
-    this->mMax = i == 0 ? 0 : i-1;
-    this->mMax = 14;
-
-    std::cout << "blabla " << mMax << std::endl;
+    this->mMax = (i == 0 ? 0 : i - 1);
 
     arma::vec n_Max = arma::vec(mMax);
     for (int m = 0 ; m < mMax ; m++) {
         n_Max(m) = 0.5 * (mMax - m - 1) + 1;
     }
     this->nMax = n_Max;
-    
-    int n = nMax[mMax - 1];
-    arma::mat n_z_Max = arma::mat(mMax, n);
+
+    int n = nMax(mMax - 1);
+    arma::mat n_z_Max = arma::mat(mMax,n);
     for (int j = 0 ; j < mMax ; j++) {
         for (int k = 0 ; k < n ; k++) {
             n_z_Max(j,k) = n_zmax_i(j + 2*k + 1);
