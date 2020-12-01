@@ -7,7 +7,6 @@ Basis::Basis(double br, double bz, double N, double Q) : br(br), bz(bz), N(N), Q
     int i = 0;
     std::cout << std::endl;
     while (n_zmax_i(i) >= 1) {
-        std::cout << n_zmax_i(i) << " | " << i << std::endl;
         i++;
     }
     this->mMax = (i == 0 ? 0 : i - 1);
@@ -17,7 +16,6 @@ Basis::Basis(double br, double bz, double N, double Q) : br(br), bz(bz), N(N), Q
         n_Max(m) = 0.5 * (mMax - m - 1) + 1;
     }
     this->nMax = n_Max;
-    std::cout << std::endl << nMax(0) << std::endl;
 
     int n = nMax(mMax - 1);
     arma::imat n_z_Max = arma::imat(mMax,n);
