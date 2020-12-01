@@ -16,7 +16,7 @@
  */
 class MathTools {
     public:
-        static int factorial(int);
+        static long int factorial(int);
 
     private:
 

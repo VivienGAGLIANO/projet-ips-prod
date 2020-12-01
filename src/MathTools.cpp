@@ -13,7 +13,7 @@
  * @param n integer to computes the factorial of
  * @return the factorial of n
  */
-int MathTools::factorial(int n) {
+long int MathTools::factorial(int n) {
     if (n == 0 || n == 1)
         return 1;
     return n * factorial(n-1);
