@@ -7,8 +7,8 @@ class Basis {
     public:
         Basis(double, double, double, double);
         int mMax;
-        arma::vec nMax;
-        arma::mat n_zMax;
+        arma::ivec nMax;
+        arma::imat n_zMax;
 
         arma::vec rPart(arma::vec, int, int);
         arma::vec zPart(arma::vec, int);
