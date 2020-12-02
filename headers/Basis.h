@@ -12,7 +12,7 @@ class Basis {
 
         arma::vec rPart(arma::vec, int, int);
         arma::vec zPart(arma::vec, int);
-        arma::vec basisFunc(int, int, int, arma::vec, arma::vec);
+        arma::mat basisFunc(int, int, int, arma::vec, arma::vec);
 
     private:
         double br;
