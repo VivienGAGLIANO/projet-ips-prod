@@ -1,7 +1,7 @@
 CC = g++
-CFLAGS = -Wall -Wextra -larmadillo -lm
-OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Poly.o obj/Basis.o
-TESTS = tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/TestMandatory03
+CFLAGS = -g -Wall -Wextra -larmadillo -lm
+OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Poly.o obj/Basis.o obj/NaiveRho.o
+TESTS = tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/TestMandatory03 tests/TestNaiveRho
 TARGET = main
 
 all: $(TARGET)
