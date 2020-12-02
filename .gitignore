@@ -3,11 +3,8 @@ bin/*
 obj/*
 *.o
 doc/*
-tests/*.cpp
-tests/TestMandatory00
-tests/TestMandatory01
-tests/TestMandatory02
-tests/TestMandatory03
+tests/TestMandatory??.cpp
+tests/TestMandatory??
 
 .idea/
 *.csv
