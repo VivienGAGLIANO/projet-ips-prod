@@ -45,3 +45,7 @@ arma::vec Basis::zPart(arma::vec z, int n_z) {
     poly.calcHermite(n_z, z / bz);
     return cst * exp % poly.hermite(n_z);
 }
+
+arma::vec Basis::basisFunc(int m, int n, int n_z, arma::vec zVals, arma::vec rVals) {
+    return zPart(zVals, n_z) % rPart(rVals, m, n);
+}
