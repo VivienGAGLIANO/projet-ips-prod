@@ -1,13 +1,13 @@
 #include "../headers/NaiveRho.h"
 #include "../headers/Basis.h"
 
-arma::mat NaiveRho::density(arma::vec rVals, arma::vec zVals) {
+arma::mat NaiveRho::density(arma::vec zVals, arma::vec rVals) {
 //    auto rho = [=](int m, int n, int n_z, int mp, int np, int n_zp){
 //        return NaiveRho::rho(m,n);
 //    };
     arma::mat rho;
     rho.load("rho.arma", arma::arma_ascii);
-    arma::mat result = arma::zeros(rVals.size(), zVals.size()); // number of points on r- and z- axes
+    arma::mat result = arma::zeros(zVals.size(), rVals.size()); // number of points on r- and z- axes
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
     int i = 0;
     int j = 0;
@@ -36,6 +36,5 @@ arma::mat NaiveRho::density(arma::vec rVals, arma::vec zVals) {
             }
         }
     }
-    std::cout << std::endl << rho.size() << std::endl << result.size();
     return result;
 }

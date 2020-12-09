@@ -6,6 +6,7 @@
 class NaiveRho {
     public:
         static arma::mat density(arma::vec, arma::vec);
+
     private:
 
 };
