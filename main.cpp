@@ -64,14 +64,8 @@ int main() {
         }
     }*/
 
-    arma::vec rVals(16);
-    for (int i = 0; i < 16; ++i) {
-        rVals(i) = ((double) 10 * i / 16)*1E-15;
-    }
-    arma::vec zVals(64);
-    for (int i = 0; i < 64; ++i) {
-        zVals(i) = ((double) 40 * i / 64 - 20)*1E-15;
-    }
+    arma::vec zVals = arma::linspace(-20, 20, 64);
+    arma::vec rVals = arma::linspace(0, 10, 16);
     arma::cube out = convert_coordinates(NaiveRho::density(zVals, rVals));
 
     std::ofstream outfile("density.df3");
