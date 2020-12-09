@@ -10,15 +10,13 @@ class TestNaiveRho : public CxxTest::TestSuite {
     void testNaiveRho_density(void) {
         arma::vec rVals(16);
         for (int i = 0; i < 16; ++i) {
-            rVals(i) = ((double) 10 * i / 16)*1E-15;
+            rVals(i) = ((double) 10 * i / 16);
         }
         arma::vec zVals(64);
         for (int i = 0; i < 64; ++i) {
-            zVals(i) = ((double) 40 * i / 64 - 20)*1E-15;
+            zVals(i) = ((double) 40 * i / 64 - 20);
         }
-        Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
-        std::cout << basis.basisFunc(0, 0, 1, zVals, rVals);
-        //arma::mat density = NaiveRho::density(rVals, zVals);
-        //std::cout << std::endl << density;
+        arma::mat density = NaiveRho::density(zVals, rVals);
+        std::cout << std::endl << density;
     }
 };
