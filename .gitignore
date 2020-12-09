@@ -5,7 +5,9 @@ obj/*
 doc/*
 tests/TestMandatory??.cpp
 tests/TestMandatory??
+
 visu.png
+density.df3
 
 .idea/
 *.csv
