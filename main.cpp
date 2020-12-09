@@ -3,56 +3,79 @@
  */
 
 #include <iostream>
-#include "headers/Schrodinger.h"
+#include <armadillo>
+#include "headers/Basis.h"
+#include "headers/NaiveRho.h"
 
-/**
- * Generates a csv file containing the z vector as the first column, and the columns of the matrix mat as the next columns
- * @param filename the filename of the csv to create (or override if existing)
- * @param name name of the variable in the matrix. It will be printed in the header of the csv file
- * @param z the first column of the csv file
- * @param mat the matrix with the next columns to be written in the csv file
- */
-void generate_csv(std::string filename, std::string name, arma::vec z, arma::mat mat) {
-    int N = z.n_elem;
-    std::ofstream csv_file;
-    csv_file.open(filename);
-    csv_file << "z";
-    for (int n = 0; n < (int) mat.n_cols; n++) {
-        csv_file << "," << name << "_" << n << "(z)";
-    }
-    csv_file << std::endl;
-    for (int i = 0; i < N; i++) {
-        csv_file << z(i);
-        for (int n = 0; n < (int) mat.n_cols; n++) {
-            csv_file << ',' << mat(i, n);
+
+std::string cubeToDf3(const arma::cube &m)
+{
+    std::stringstream ss(std::stringstream::out | std::stringstream::binary);
+    int nx = m.n_rows;
+    int ny = m.n_cols;
+    int nz = m.n_slices;
+    ss.put(nx >> 8); ss.put(nx & 0xff);
+    ss.put(ny >> 8); ss.put(ny & 0xff);
+    ss.put(nz >> 8); ss.put(nz & 0xff);
+    double theMin = 0.0;
+    double theMax = m.max();
+    for (uint k = 0; k < m.n_slices; k++)
+    {
+        for (uint j = 0; j < m.n_cols; j++)
+        {
+            for (uint i = 0; i < m.n_rows; i++)
+            {
+                uint v = 255 * (fabs(m(i, j, k)) - theMin) / (theMax - theMin);
+                ss.put(v);
+            }
         }
-        csv_file << std::endl;
     }
-    csv_file.close();
+    return ss.str();
+}
+
+arma::cube convert_coordinates(arma::mat input) {
+    int x_min = -10, x_max = 10, nbp_x = 32;
+    int y_min = -10, y_max = 10, nbp_y = 32;
+    int z_min = -20, z_max = 20, nbp_z = 64;
+    double r_max = sqrt(201); int nbp_r = input.n_cols;
+
+    arma::cube output = arma::cube(nbp_x, nbp_y, nbp_z).zeros();
+    for (int x = 0; x < nbp_x; x++) {
+        for (int y = 0; y < nbp_y; y++) {
+            for (int z = 0; z < nbp_z; z++) {
+                double real_x = x_min + x * ((x_max - x_min)/nbp_x);
+                double real_y = y_min + y * ((y_max - y_min)/nbp_y);
+                double r = sqrt(pow(real_x, 2) + pow(real_y, 2));
+                output(x, y, z) = input(floor(z * (input.n_rows / nbp_z)), floor((r/r_max) * nbp_r));
+            }
+        }
+    }
+    return output;
 }
 
 int main() {
-    int start = -5;
-    int end = 5;
-    int N = 1000;
-    int n_max = 10;
+/*    arma::cube density = arma::cube(5,10,20).ones();
+    for (int x = 0; x<5; x++) {
+        for (int y = 0; y<10; y++) {
+            for (int z = 0; z<20; z++) {
+//                density(x, y, z) = ((double) x+y)/1000.; //z/20;
+                density(x, y, z) = 0.1;
+            }
+        }
+    }*/
 
-    Schrodinger schro;
-    arma::vec z = arma::linspace(start, end, N);
-    arma::vec psi_z = schro.psi(1, z);
-
-    arma::mat psi;
-    arma::mat psi_second;
-    arma::mat energy;
-    for (int n = 0; n <= n_max; n++) {
-        psi.insert_cols(psi.n_cols, schro.psi(n, z));
-        psi_second.insert_cols(psi_second.n_cols, schro.psi_second(n, z));
-        energy.insert_cols(energy.n_cols, schro.energy(n, z));
+    arma::vec rVals(16);
+    for (int i = 0; i < 16; ++i) {
+        rVals(i) = ((double) 10 * i / 16)*1E-15;
     }
+    arma::vec zVals(64);
+    for (int i = 0; i < 64; ++i) {
+        zVals(i) = ((double) 40 * i / 64 - 20)*1E-15;
+    }
+    arma::cube out = convert_coordinates(NaiveRho::density(zVals, rVals));
 
-    generate_csv("psi.csv", "psi", z, psi);
-    generate_csv("psi_second.csv", "psi_second", z, psi_second);
-    generate_csv("energy.csv", "E", z, energy);
-
+    std::ofstream outfile("density.df3");
+    outfile << cubeToDf3(out);
+    outfile.close();
     return 0;
 }
