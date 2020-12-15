@@ -2,6 +2,19 @@
 #include "../headers/Basis.h"
 
 
+/**
+ * Compute atomic density with optimized algorithm
+ *
+ * With given basis, density doesn't depend on theta, so r and z are the only arguments.
+ * Algorithm is based on naive algorithm, but with several optimization:
+ * Indexes are computed and stored before main loop.
+ * Rho values is a m-diagonal matrix, removes one loop.
+ * Basis function can be decomposed in its R and Z parts, each computed in different places to avoid computing redundancy.
+ *
+ * @param zVals input values for z. Armadillo vector to optimize compute time with Boost library
+ * @param rVals input values for r. Armadillo vector to optimize compute time with Boost library
+ * @return matrix with atomic density values in cylindrical coordinate system. Z values are along lines, r values along rows.
+ */
 arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
     arma::mat rho;
     rho.load("rho.arma", arma::arma_ascii);
