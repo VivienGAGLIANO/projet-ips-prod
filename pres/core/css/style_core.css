@@ -1,0 +1,740 @@
+/* ========================= */
+/* ======== general ======== */
+/* ========================= */
+
+body {
+  font-family: 'Arial';
+  font-weight: normal;
+  font-size: 12px;
+  text-align: justify;
+  font-size-adjust: none;
+  word-break: break-word;
+}
+
+/* ============================ */
+/* ======== title page ======== */
+/* ============================ */
+
+.titlepage {
+  align-content: flex-start;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.titlepage {
+  font-size: 0.7em;
+}
+
+.titlepage .remark-slide-number {
+  display: none;
+}
+
+.titlepage p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.title {
+  font-size: 190%;
+  margin-right: auto;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+.subtitle {
+  font-size: 110%;
+  margin-right: auto;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+/* =========================== */
+/* ======== remark.js ======== */
+/* =========================== */
+
+.remark-slide {
+  position: initial;
+}
+
+.remark-slide-content {
+  font-size: 18px;
+  background-size: 908px 681px;
+  background-position: 50% 0px;
+  background-image: url('images/background_cea.png');
+
+  box-sizing: border-box;
+  height: 681px;
+  padding: 10% 4% 6% 4%;
+
+  color: rgba(20,20,40,1.0);
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.remark-slide-content ul, .remark-slide-content ol, .remark-slide-content pre {
+  margin: 0.4em 0 0.4em 0;
+}
+
+.asciinema-theme-asciinema .asciinema-terminal {
+ margin: 0 0 0 0;
+ border-radius: 0.2em;
+}
+
+
+.remark-slide-content p {
+  margin: 0.2em 0 0.2em 0;
+}
+
+.remark-slide-scaler {
+  overflow: hidden;
+}
+
+/*
+.remark-slide-content pre {
+  width: 100%;
+}
+*/
+
+.remark-slide-content * {
+  flex: 0 0 auto;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.middle {
+  justify-content: center;
+}
+
+.top {
+  justify-content: flex-start;
+}
+
+strong {
+  color: rgba(182, 38, 52, 1.0);
+  font-weight: bold;
+  font-style: normal;
+}
+
+.redb {
+  color: rgba(255, 40, 40, 1.0);
+  font-weight: bold;
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  line-height: 1.0;
+  margin-bottom: 0.1em;
+  margin-top: 0.5em;
+}
+
+h1 {
+  color: rgba(255, 255, 255, 1.0); 
+  position: absolute;
+  top: 0%;
+  left: 2%;
+  font-size: 160% !important;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  line-height: 2.7em;
+}
+
+h1 em {
+  color: rgba(192,   0,   0, 1.0);
+  font-weight: bold;
+  font-style: normal;
+}
+
+.top {
+  vertical-align: top !important;
+}
+
+div .hcenter {
+  text-align: left;
+}
+
+span.hcenter {
+  display: block;
+  text-align: center;
+}
+
+.hcenter {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}
+
+span .hcenter {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}
+
+.hcenter table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div .hcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h2 { width: 100%; font-size: 130% !important; }
+h3 { width: 100%; font-size: 120% !important; }
+h4 { width: 100%; font-size: 115% !important; }
+h5 { width: 100%; font-size: 110% !important; }
+h6 { width: 100%; font-size: 105% !important; }
+
+.small * {
+  font-size: small !important;
+}
+
+em {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.right-column {
+  float: right;
+  margin: 0 0 0 0.3em;
+}
+
+.left-column {
+  float: left;
+  margin: 0 0.3em 0 0;
+}
+
+.wauto { display: inline-flex; }
+.w05 { width: 05%; }
+.w10 { width: 10%; }
+.w15 { width: 15%; }
+.w20 { width: 20%; }
+.w25 { width: 25%; }
+.w30 { width: 30%; }
+.w35 { width: 35%; }
+.w40 { width: 40%; }
+.w45 { width: 45%; }
+.w46 { width: 46%; }
+.w47 { width: 47%; }
+.w48 { width: 48%; }
+.w49 { width: 49%; }
+.w50 { width: 50%; }
+.w55 { width: 55%; }
+.w60 { width: 60%; }
+.w65 { width: 65%; }
+.w70 { width: 70%; }
+.w75 { width: 75%; }
+.w80 { width: 80%; }
+.w85 { width: 85%; }
+.w90 { width: 90%; }
+.w95 { width: 95%; }
+.w100 { width: 100%; }
+
+.vspace {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.footnote p {
+  margin: 0 0 0 0;
+}
+
+.remark-slide-number, .footnote {
+  position: absolute;
+  font-size: 0.8em;
+  bottom: 0;
+  margin-bottom: 2px;
+  opacity: 1;
+  color: rgba(255, 255, 255, 1.0);
+}
+
+.remark-slide-number {
+  right: 0;
+  margin-right: 4px;
+}
+
+.footnote {
+  left: 0;
+  margin-left: 4px;
+}
+
+/* ====================== */
+/* ======== misc ======== */
+/* ====================== */
+
+.grow {
+  flex-grow: 1;
+}
+
+.noflex {
+}
+
+.leftf {
+  float: left;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.rightf {
+  float: right;
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #B04040;
+}
+
+a:visited {
+  color: #B04040;
+}
+
+/* ============================ */
+/* ======== LaTeX logo ======== */
+/* ============================ */
+
+.tex sub, .latex sub, .latex sup {
+  text-transform: uppercase;
+}
+
+.tex sub, .latex sub {
+  vertical-align: -0.5ex;
+  margin-left: -0.1667em;
+  margin-right: -0.125em;
+}
+
+.tex, .latex, .tex sub, .latex sub {
+  font-size: 1em;
+}
+
+.latex sup {
+  font-size: 0.85em;
+  vertical-align: 0.15em;
+  margin-left: -0.36em;
+  margin-right: -0.15em;
+}
+
+/* ====================== */
+/* ======== code ======== */
+/* ====================== */
+
+.numbers .remark-code {
+  counter-reset: line;
+}
+
+.numbers .remark-code-line {
+  counter-increment: line;
+  text-indent: -1.9em;
+  padding-left: 1.9em;
+}
+
+/*
+.remark-code-line:nth-of-type(even) {
+      background-color:#222;
+}
+*/
+
+.numbers .remark-code-line::before {
+  content: counter(line, decimal-leading-zero);
+  border-right: 1px solid rgba(160, 100, 100, 1);
+  color: rgba(160, 100, 100, 1);
+  margin-right: 0.3em;
+  box-sizing: border-box;
+  padding-right: 0.3em;
+}
+
+.numbers .remark-code-line::before {
+  -webkit-user-select: none;
+}
+
+/* ==================================== */
+/* === code highlight on mouse over === */
+/* ==================================== */
+
+.numbers .remark-code-line:hover::before {
+  background-color: rgba(255, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+  transition: all 0s ease;
+}
+
+.remark-code-line {
+  transition: background-color 0.5s ease;
+}
+
+.remark-code-line:hover {
+  background-color: rgba(100,0,0,1);
+  transition: background-color 0s ease;
+}
+
+/* ==================================== */
+/* ==================================== */
+/* ==================================== */
+
+/* in case of no numbering
+div.remark-code-line:empty::before {
+    content: "\200b";
+}
+*/
+
+.remark-inline-code {
+  box-shadow: none;
+}
+
+.remark-code-line-highlighted {
+  background-color: rgba(113, 0, 116, 1);
+}
+
+.f9, #terminal, .remark-code, .hljs.remark-code, .cinescript {
+  color: #FFFFFF;
+  font-family: mymono;
+  font-size: 0.65em;
+  line-height: 118%;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+}
+
+.terminal {
+  font-family: mymono;
+}
+
+#terminal, .remark-code, .hljs.remark-code, .cinescript {
+  background-color: rgba(0,0,0,0.9);
+}
+
+#terminal, code, .remark-code, .cinescript, .hljs.remark-code, .asciinema-terminal {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+  padding: 0.3em;
+}
+
+.nowrap #terminal, .nowrap code, .nowrap .remark-code, .nowrap .cinescript, .nowrap .hljs.remark-code, .asciinema-terminal {
+  white-space: pre;
+}
+
+.remark-inline-code {
+  font-size: 1.0em;
+  padding: 0em;
+  font-weight: bold;       
+}
+
+h1 > code.remark-inline-code {
+  color: rgba(255, 210, 210, 1.0);
+}
+
+h1 > code.remark-inline-code.has-jax {
+  color: rgba(255, 255, 255, 1.0);
+}
+
+.remark-code {
+  display: block;
+}
+
+/* ================================= */
+/* ======== terminal colors ======== */
+/* ================================= */
+
+.reset     {color: white;}
+.bg-reset  {}
+.dimgray   {color: rgba( 80,  80,  80, 1);}
+.red       {color: rgba(255,  65,  65, 1);}
+.green     {color: rgba(  0, 170,   0, 1);}
+.yellow    {color: rgba(255, 141,  26, 1);}
+.blue      {color: rgba(154, 154, 255, 1);}
+.purple    {color: rgba(255,  85, 255, 1);}
+.cyan      {color: rgba(  0, 224, 224, 1);}
+.white     {color: rgba(255, 255, 255, 1);}
+.bg-black  {background-color: rgba(  0,   0,   0, 0);}
+.bg-red    {background-color: rgba(255,  65,  65, 1);}
+.bg-green  {background-color: rgba(  0, 170,   0, 1);}
+.bg-yellow {background-color: rgba(255, 141,  26, 1);}
+.bg-blue   {background-color: rgba(154, 154, 255, 1);}
+.bg-purple {background-color: rgba(255,  85, 255, 1);}
+.bg-cyan   {background-color: rgba(  0, 224, 224, 1);}
+.bg-white  {background-color: rgba(255, 255, 255, 1);}
+.underline {text-decoration: underline;}
+.bold      {font-weight: bold;}
+.blink     {text-decoration: blink;}
+
+/* ========================= */
+/* ======== corners ======== */
+/* ========================= */
+
+.alert, .block, #terminal, code, .remark-code, .cinescript {
+  border-radius: 0.2em;
+}
+
+/* ======================== */
+/* ======== images ======== */
+/* ======================== */
+
+img {
+  width: 100%;
+  display: block;
+}
+
+.shadow img {
+   vertical-align: top;
+}
+
+.shadow p {
+  margin: 0px;
+}
+
+.border {
+  border: black solid 1px;
+  box-sizing: border-box;
+  padding: 0.3em;
+  margin: 0.3em;
+}
+
+/* ================================= */
+/* ======== separation line ======== */
+/* ================================= */
+
+hr {
+  width: 100%;
+  border: 0;
+  height: 5px;
+  background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5));
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+/* ================================== */
+/* ======== table of content ======== */
+/* ================================== */
+
+.toc .remark-slide-number {
+  display: none;
+}
+
+.toc {
+  vertical-align: top;
+}
+
+.toc ol {
+  list-style-type: Upper-roman;
+}
+
+.toc ol, .toc ul {
+  margin: 0 0 0 1em;
+}
+
+.toc li {
+  margin: 0 0 1em 0;
+}
+
+.toc ul {
+  list-style-type: disc;
+}
+
+.toc ul ul {
+  list-style-type: square;
+}
+
+.toc ol ul {
+  list-style-type: square;
+}
+
+.toc li {
+  font-size: 150%;
+}
+
+.toc li li {
+  font-size: 80%;
+  margin: 0 0 0 0;
+}
+
+.toc strong {
+  color: rgba(182, 38, 52, 1.0);
+  font-weight: bold;
+}
+
+.toc em {
+  color: rgba(182, 38, 52, 1.0);
+  font-weight: normal;
+}
+
+/* ======================== */
+/* ======== shadow ======== */
+/* ======================== */
+
+h1, .shadow {
+  filter: drop-shadow( 2px 2px 3px rgba(0, 0, 0, 0.7) );
+}
+
+span.mermaid.shadow {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#terminal, .asciinema-player, code, .remark-code, table, .block, .alert, .cinescript, hr {
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+.shadow {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+
+/* ======================== */
+/* ======== blocks ======== */
+/* ======================== */
+
+.alert, .block {
+  box-sizing: border-box;
+  padding: 0.1em;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+  display: block;
+}
+
+.block {
+/*  border: 0.15em solid rgba(150,150,255,0.3); */
+  background: rgba(150,150,255,0.4);
+}
+
+.alert {
+/*  border: 0.15em solid rgba(255,150,150,0.3); */
+  background: rgba(255,150,150,0.4);
+}
+
+/* ======================== */
+/* ======== videos ======== */
+/* ======================== */
+
+video {
+  font-size: 0.1em;
+}
+
+/* ======================== */
+/* ======== tables ======== */
+/* ======================== */
+
+table
+{
+  border-collapse: collapse;
+  font-size: 1.0em;
+  border: none;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+/*  border: 0.15em solid rgba(185,201,255,1.0); */
+}
+
+th
+{
+  font-weight: normal;
+  box-sizing: border-box;
+  padding: 0.2em;
+  background: rgba(195,221,255,1.0);
+  border: 0.15em solid rgba(195,221,255,1.0);
+}
+
+td
+{
+  box-sizing: border-box;
+  padding: 0.2em;
+  border: 0.15em solid rgba(195,221,255,1.0);
+  border-top: none;
+}
+
+/* ======================== */
+/* ======== emojis ======== */
+/* ======================== */
+
+.emoji {
+  width: 1.0em;
+  height: 1.0em;
+  display: inline-block;
+  margin-bottom: 0.1em;
+  background-size: contain;
+}
+
+/* ====================== */
+/* ======== tree ======== */
+/* ====================== */
+
+.tree {
+  font-family: mymono;
+}
+
+.tree ul {
+  margin: 0px 0px 0px 20px;
+  list-style: none;
+  line-height: 1.5em;
+  padding: 0;
+}
+
+.tree ul li {
+  position: relative;
+}
+
+.tree ul li::before {
+  position: absolute;
+  left: -15px;
+  top: 0px;
+  content: '';
+  display: block;
+  border-left: 2px solid #000;
+  height: 0.8em;
+  border-bottom: 2px solid #000;
+  width: 10px;
+}
+
+.tree ul li::after {
+  position: absolute;
+  left: -15px;
+  bottom: -7px;
+  content: '';
+  display: block;
+  border-left: 2px solid #000;
+  height: 100%;
+}
+
+.tree ul li:last-child::after {
+  display: none;
+}
+
+/* ============================ */
+/* ======== print hack ======== */
+/* ============================ */
+
+@page {
+/* size: 908px 681px; */
+  margin: 0;
+}
+
+@media print {
+  .remark-slide-scaler {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
+
+.hljs-comment {
+  color: #ffa0a0 !important;
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Presentation template</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/asciinema-player.css"> 
+
+
+
+  </head>
+  <body>
+    <textarea id="source" readonly>
+class: titlepage
+
+.title[
+Projet IPS-Dev - [Equation 1D-HO Schrödinger](https://github.com/dubrayn/dubrayn.github.io)
+]
+
+.subtitle[
+M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020
+]
+
+.row[
+`$$\hat{H}_{(z)}\psi_n(z) = E_n\psi_n(z)$$`
+]
+
+.footnote[
+[:book:](index.html)
+]
+
+???
+
+Some slide notes.
+
+Some math can be put inline `$a = \sqrt{b^2+c^2}$` or as
+
+`$$a_{0}=\frac{1}{4}b_{1}$$`
+
+Some items:
+* first
+* second
+* third
+
+---
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020 - [:book:](index.html)
+]
+
+---
+# Objectifs du projet
+
+* Implémenter les solutions de l'équation $\psi_n(z) = \frac{1}{\sqrt{2^nn\, !}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} z\right)$
+
+* Calculer les niveaux d'énergie `$E_n = \frac{\hat{H}_{(z)}\psi_n(z)}{\psi_n(z)}$`
+
+* Vérifier l'orthonormalité des solutions `$\forall n,m \displaystyle \int \psi_n^*(z)\psi_m(z)\, dz = \delta_{n,m}$`
+---
+class: toc
+#Sommaire
+
+
+1. Structure du projet
+
+2. Résultats obtenus
+
+3. Outils de développement utilisés
+
+---
+# Diagramme de classe
+
+
+.hcenter.w60[
+        ![](images/class_diagram.png)
+]
+‌
+
+
+
+---
+# Chaîne de compilation : Makefile
+
+
+```Makefile
+CC = g++
+CFLAGS = -Wall -Wextra -larmadillo -lm
+OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Hermit.o
+TARGET = main
+WEIGHTS_N = 20
+
+all: headers/GaussHermitWeights.h $(TARGET)
+run: all
+	./$(TARGET)
+
+headers/GaussHermitWeights.h: generate_gausshermit_weights.py
+	./generate_gausshermit_weights.py $(WEIGHTS_N)
+
+$(TARGET): $(TARGET).cpp $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+obj/%.o: src/%.cpp headers/%.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: obj/%.o
+
+.PHONY: tests
+tests: 
+	cxxtestgen --error-printer -o tests/testHermit.cpp tests/test_hermit.h
+	cxxtestgen --error-printer -o tests/testSchrodinger.cpp tests/test_schrodinger.h
+	g++ -o tests/testHermit tests/testHermit.cpp
+	g++ -o tests/testSchrodinger tests/testSchrodinger.cpp
+	./tests/testHermit
+	./tests/testSchrodinger
+
+.PHONY: doc
+doc:
+	doxygen Doxyfile
+
+.PHONY: clean re
+clean:
+	rm -f $(OBJECTS) $(TARGET) *.out
+	rm -f tests/testHermit tests/testSchrodinger tests/testHermit.cpp tests/testSchrodinger.cpp
+
+re: clean all
+```
+‌
+
+
+---
+# Tracé de la solution
+
+
+![](images/psi.png)
+
+
+---
+# Niveaux d'énergie
+
+
+![](images/energy.png)
+
+
+
+---
+# Orthonormalité
+
+```C++
+bool Schrodinger::orthonormality() {
+    #include "../headers/GaussHermitWeights.h"
+    for (int p = 0; p <= 10; p++) {
+        for (int q = 0; q <= 10; q++) {
+            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
+            double c2 = c1 * sqrt(h_bar / (m*w));
+            Hermit hermit(X);
+            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
+            double integral = c2 * I(0);
+            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
+                return false;
+        }
+    }
+    return true;
+}
+```
+
+---
+# Tests unitaires
+
+
+Tests des polynômes d'Hermite:
+```c++
+void testHermit(void)
+	{
+		Hermit herm(arma::colvec({-2,0,2}));
+	  TS_ASSERT_EQUALS(herm.get(0)(0),1);
+		TS_ASSERT_EQUALS(herm.get(0)(1),1);
+		TS_ASSERT_EQUALS(herm.get(0)(2),1);
+    TS_ASSERT_EQUALS(herm.get(1)(2),4);
+  }
+
+```
+Tests des valeurs de l'énergie:
+```C++
+void testSchrodingerPSI_ENERGY(void)
+	{
+		Schrodinger schro;
+	    int j =0;
+		int i =0;
+		arma::colvec z = arma::colvec({-2,-1,0,1,2,5});
+		arma::vec h_vec = arma::vec(z.n_rows).ones();
+		for( i = 0; i < 8; i++) {
+			arma::colvec value = (-schro.psi_second(i,z)+schro.psi(i,z)%schro.psi(i,z)) % (0.5*h_vec);
+			for (j = 0; j<6; j++) {
+				TS_ASSERT_DELTA(schro.energy(i,z)(j),value(j),0.00000001);
+			};
+		};
+  }  
+```
+
+
+![](images/tests.png)
+
+
+---
+# Git
+
+
+.hcenter[
+    ![](images/git_message.png)
+
+    ![](images/git_graph.png)
+]
+‌
+
+
+    </textarea>
+
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script src="core/javascript/plotly.js"></script>
+    <script src="core/javascript/asciinema-player.js"></script>
+    <script src="core/javascript/bokeh-2.2.1.min.js"></script>
+    <script src="core/javascript/bokeh-widgets-2.2.1.min.js"></script>
+    <script src="core/javascript/bokeh-tables-2.2.1.min.js"></script>
+    <script src="core/javascript/bokeh-api-2.2.1.min.js"></script>
+
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create(
+    {
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // KaTeX
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
+
+
+    </script>
+    <script src="gitgraphs.js" type="text/javascript"></script>
+
+  </body>
+</html>
+
+
