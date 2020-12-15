@@ -21,8 +21,8 @@ class TestNaiveRho : public CxxTest::TestSuite {
         double time1 = ((std::chrono::duration<double>)(step2 - step1)).count();
         double time2 = ((std::chrono::duration<double>) (step3 - step2)).count();
 
-        std::cout << std::endl << arma::approx_equal(densityOptimized, densityNaive, "reldiff", 0.001);
-        std::cout << std::endl << "Fill : " << ((std::chrono::duration<double>)(step1 - start)).count() << " s\nOpti algo : " << time1 << " s\nNaive algo : " << time2 << " s\n";
+        std::cout << std::endl << "Results equality : " << arma::approx_equal(densityOptimized, densityNaive, "reldiff", 0.001);
+        std::cout << std::endl << "Fill : " << ((std::chrono::duration<double>)(step1 - start)).count() << " s\nNaive algorithm : " << time2 << " s\nOptimized algorithm : " << time1 << " s\n";
         std::cout << "Optimisation : " << time2/time1 << std::endl;
     }
 };
