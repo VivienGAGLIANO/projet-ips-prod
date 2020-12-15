@@ -5,6 +5,7 @@
 #include <iostream>
 #include <armadillo>
 #include "headers/NaiveRho.h"
+#include "headers/OptimizedRho.h"
 
 
 std::string cubeToDf3(const arma::cube &m)
@@ -65,7 +66,9 @@ int main() {
 
     arma::vec zVals = arma::linspace(-20, 20, 64);
     arma::vec rVals = arma::linspace(0, 10, 16);
-    arma::cube out = convert_coordinates(NaiveRho::density(zVals, rVals));
+//    arma::cube out = convert_coordinates(NaiveRho::density(zVals, rVals));
+    arma::cube out = convert_coordinates(OptimizedRho::density(zVals, rVals));
+
 
     std::ofstream outfile("density.df3");
     outfile << cubeToDf3(out);
