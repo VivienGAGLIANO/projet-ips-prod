@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Presentation template</title>
+    <title>Projet IPS-Prod - Local density of a nuclear system</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
@@ -20,7 +20,7 @@
 class: titlepage
 
 .title[
-Projet IPS-Prod - [Local density of a nuclear system](https://github.com/dubrayn/dubrayn.github.io)
+Projet IPS-Prod - [Local density of a nuclear system](https://dubrayn.github.io/IPS-PROD/project.html#1)
 ]
 
 .subtitle[
@@ -61,8 +61,8 @@ L. Mallardeau, V. Gagliano, G. Mézière - ENSIIE - 2020 - [:book:](index.html)
 
 * Calculer la densité locale atomique  `$\rho(r)$`
 * Optimiser l'algorithme
+* Tracer le résultat en 2D et en 3D
 
-* Tracer le résultat en 3D
 ---
 class: toc
 #Sommaire
@@ -71,8 +71,11 @@ class: toc
 1. Introduction : problème physique
 
 2. Description générale du projet
+    - Chaîne de compilation
+    - Optimisation de l'algorithme naïf
+    - Conversion de coordonnées
 
-3. Tests unitaires et Documentation
+3. Tests unitaires et documentation
 
 4. Résultats
 
@@ -259,16 +262,16 @@ for (int m_a = 0; m_a < basis.mMax; m_a++)
         {
             zPart_a = basis.zPart(zVals, n_z_a);
             // Since rho(a, b) = 0 if m_a != m_b, we can remove the for (int m_b = 0;...) loop
-                for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
-                {
-                    rPart_b = basis.rPart(rVals, m_a, n_b);
-                    for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
-                        zPart_b = basis.zPart(zVals, n_z_b);
-                        arma::mat funcA = zPart_a * rPart_a.t();
-                        arma::mat funcB = zPart_b * rPart_b.t();
-                        result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
-                    }
+            for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
+            {
+                rPart_b = basis.rPart(rVals, m_a, n_b);
+                for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
+                    zPart_b = basis.zPart(zVals, n_z_b);
+                    arma::mat funcA = zPart_a * rPart_a.t();
+                    arma::mat funcB = zPart_b * rPart_b.t();
+                    result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
                 }
+            }
         }
     }
 }
@@ -344,19 +347,51 @@ arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
             rPart_a = basis.rPart(rVals, m_a, n_a);
             for (int n_z_a = 0; n_z_a < basis.n_zMax(m_a, n_a); n_z_a++)
             {
-                    for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
-                    {
-                        rPart_b = basis.rPart(rVals, m_a, n_b);
-                        for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
-                            arma::mat funcA = zParts.col(n_z_a) * rPart_a.t();
-                            arma::mat funcB = zParts.col(n_z_b) * rPart_b.t();
-                            result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
-                        }
+                arma::mat funcA = zParts.col(n_z_a) * rPart_a.t();
+                for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
+                {
+                    rPart_b = basis.rPart(rVals, m_a, n_b);
+                    for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
+                        arma::mat funcB = zParts.col(n_z_b) * rPart_b.t();
+                        result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
                     }
+                }
             }
         }
     }
     return result;
+}
+```
+
+---
+# II - Conversion de coordonnées
+
+```C++
+arma::vec zVals = arma::linspace(-20, 20, 64);
+arma::vec rVals = arma::linspace(0, 10, 16);
+arma::cube out = convert_coordinates(OptimizedRho::density(zVals, rVals));
+```
+
+
+```C++
+arma::cube convert_coordinates(arma::mat input) {
+    int nbp_r = input.n_cols;
+    int nbp_z = input.n_rows;
+    int x_min = -10, x_max = 10, nbp_x = 32;
+    int y_min = -10, y_max = 10, nbp_y = 32;
+
+    arma::cube output = arma::cube(nbp_x, nbp_y, nbp_z).zeros();
+    for (int x = 0; x < nbp_x; x++) {
+        for (int y = 0; y < nbp_y; y++) {
+            double real_x = x_min + ((double) x/nbp_x)*(x_max - x_min);
+            double real_y = y_min + ((double) y/nbp_y)*(y_max - y_min);
+            double real_r = sqrt(pow(real_x, 2) + pow(real_y, 2));
+            int r = (real_r/sqrt(x_max*x_max + y_max*y_max)) * nbp_r;
+            if (r < nbp_r)
+                output.tube(x, y) = input.col(r);
+        }
+    }
+    return output;
 }
 ```
 
@@ -407,10 +442,17 @@ class TestMandatory00 : public CxxTest::TestSuite {
 
 ---
 
+# IV - Résultat
+
+.hcenter[![](images/2dplot.png)]
+
+.hcenter[Plot 2D du résultat pour $y=0$]
+
+---
 
 # IV - Résultat
 
-.hcenter.w60[![](images/result2.PNG)]
+.hcenter.w60[![](images/3dplot.png)]
 
 .hcenter[Plot 3D du résultat]
 
