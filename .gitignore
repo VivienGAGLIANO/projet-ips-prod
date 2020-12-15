@@ -8,6 +8,7 @@ tests/*
 !tests/*.h
 
 visu.png
+2dplot.png
 density.df3
 
 .idea/
