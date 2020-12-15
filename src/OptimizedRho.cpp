@@ -47,15 +47,15 @@ arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
             rPart_a = basis.rPart(rVals, m_a, n_a);
             for (int n_z_a = 0; n_z_a < basis.n_zMax(m_a, n_a); n_z_a++)
             {
-                    for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
-                    {
-                        rPart_b = basis.rPart(rVals, m_a, n_b);
-                        for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
-                            arma::mat funcA = zParts.col(n_z_a) * rPart_a.t() /*rParts.slice(n_a).col(m_a)*/;
-                            arma::mat funcB = zParts.col(n_z_b) * rPart_b.t() /*rParts.slice(n_b).col(m_a)*/;
-                            result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
-                        }
+                arma::mat funcA = zParts.col(n_z_a) * rPart_a.t() /*rParts.slice(n_a).col(m_a)*/;
+                for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
+                {
+                    rPart_b = basis.rPart(rVals, m_a, n_b);
+                    for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
+                        arma::mat funcB = zParts.col(n_z_b) * rPart_b.t() /*rParts.slice(n_b).col(m_a)*/;
+                        result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
                     }
+                }
             }
         }
     }
