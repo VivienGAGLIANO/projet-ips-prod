@@ -9,25 +9,24 @@ arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
     Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
 
     int i = 0;
+    arma::mat zParts(zVals.n_elem, basis.n_zMax(0, 0));
+    //arma::cube rParts(rVals.n_elem, basis.mMax, basis.nMax(0));
     arma::icube index(basis.mMax, basis.nMax(0), basis.n_zMax(0, 0), arma::fill::zeros);
     for (int m = 0; m < basis.mMax; ++m) {
         for (int n = 0; n < basis.nMax(m); ++n) {
+            //rParts.col(m, n) = ;
             for (int n_z = 0; n_z < basis.n_zMax(m, n); ++n_z) {
+                if (m == 0 && n == 0) {
+                    zParts.col(n_z) = basis.zPart(zVals, n_z);
+                }
                 index(m, n, n_z) = i;
                 i++;
             }
         }
     }
-    arma::vec zPart_a;
+
     arma::vec rPart_a;
-    arma::vec zPart_b;
     arma::vec rPart_b;
-
-    arma::mat zParts(zVals.n_elem, basis.n_zMax(0, 0));
-    for (int n_z = 0; n_z < basis.n_zMax(0, 0); ++n_z) {
-        zParts.col(n_z) = basis.zPart(zVals, n_z);
-    }
-
     for (int m_a = 0; m_a < basis.mMax; m_a++)
     {
         for (int n_a = 0; n_a < basis.nMax(m_a); n_a++)
@@ -35,13 +34,10 @@ arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
             rPart_a = basis.rPart(rVals, m_a, n_a);
             for (int n_z_a = 0; n_z_a < basis.n_zMax(m_a, n_a); n_z_a++)
             {
-                //zPart_a = basis.zPart(zVals, n_z_a);
-                // Since rho(a, b) = 0 if m_a != m_b, we can remove the for (int m_b = 0;...) loop
                     for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
                     {
                         rPart_b = basis.rPart(rVals, m_a, n_b);
                         for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
-                            //zPart_b = basis.zPart(zVals, n_z_b);
                             arma::mat funcA = zParts.col(n_z_a) * rPart_a.t();
                             arma::mat funcB = zParts.col(n_z_b) * rPart_b.t();
                             result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
