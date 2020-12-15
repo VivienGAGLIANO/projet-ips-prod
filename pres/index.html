@@ -62,7 +62,7 @@ L. Mallardeau, V. Gagliano, G. Mézière - ENSIIE - 2020 - [:book:](index.html)
 * Calculer la densité locale atomique  `$\rho(r)$`
 * Optimiser l'algorithme
 
-* Tracer le résultat en 2D et en 3D
+* Tracer le résultat en 3D
 ---
 class: toc
 #Sommaire
@@ -77,6 +77,7 @@ class: toc
 4. Résultats
 
 ---
+
 # I - Introduction
 
 
@@ -84,7 +85,9 @@ class: toc
         ![](images/local_density.PNG)
         Densité locale de protons et de neutrons dans un noyau d'atome de néon
 ]
-‌ 
+‌.hcenter[
+`$$\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`]
+
 
 
 
@@ -108,7 +111,6 @@ obj/%.o: src/%.cpp headers/%.h
 	@if [ ! -d obj ]; then mkdir obj; fi
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: obj/%.o
 
 tests/%.cpp: tests/%.h
 	cxxtestgen --error-printer $^ -o $@
