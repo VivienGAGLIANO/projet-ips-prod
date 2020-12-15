@@ -64,14 +64,16 @@ int main() {
         }
     }*/
 
-    arma::vec zVals = arma::linspace(-20, 20, 64);
-    arma::vec rVals = arma::linspace(0, 10, 16);
-//    arma::cube out = convert_coordinates(NaiveRho::density(zVals, rVals));
-    arma::cube out = convert_coordinates(OptimizedRho::density(zVals, rVals));
+    arma::cube Q(10, 10, 10, arma::fill::zeros);
+    std::cout << std::endl <<Q.slice(0);
 
-
-    std::ofstream outfile("density.df3");
-    outfile << cubeToDf3(out);
-    outfile.close();
+//    arma::vec zVals = arma::linspace(-20, 20, 64);
+//    arma::vec rVals = arma::linspace(0, 10, 16);
+//    arma::cube out = convert_coordinates(OptimizedRho::density(zVals, rVals));
+//
+//
+//    std::ofstream outfile("density.df3");
+//    outfile << cubeToDf3(out);
+//    outfile.close();
     return 0;
 }
