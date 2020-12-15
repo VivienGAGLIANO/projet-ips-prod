@@ -13,8 +13,6 @@ obj/%.o: src/%.cpp headers/%.h
 	@if [ ! -d obj ]; then mkdir obj; fi
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: obj/%.o
-
 tests/%.cpp: tests/%.h
 	cxxtestgen --error-printer $^ -o $@
 
