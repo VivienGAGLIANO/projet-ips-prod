@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall -Wextra -larmadillo -lm
+CFLAGS = -Wall -Wextra -larmadillo -lm
 OBJECTS = obj/MathTools.o obj/Poly.o obj/Basis.o obj/NaiveRho.o obj/OptimizedRho.o
 TESTS = tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/TestMandatory03 tests/CompareMethods
 TARGET = main
