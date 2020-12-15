@@ -18,22 +18,28 @@ arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
             }
         }
     }
-    arma::vec zPart;
-    arma::vec rPart;
-    for (int m = 0; m < basis.mMax; m++)
+    arma::vec zPart_a;
+    arma::vec rPart_a;
+    arma::vec zPart_b;
+    arma::vec rPart_b;
+    for (int m_a = 0; m_a < basis.mMax; m_a++)
     {
-        for (int n = 0; n < basis.nMax(m); n++)
+        for (int n_a = 0; n_a < basis.nMax(m_a); n_a++)
         {
-            for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+            rPart_a = basis.rPart(rVals, m_a, n_a);
+            for (int n_z_a = 0; n_z_a < basis.n_zMax(m_a, n_a); n_z_a++)
             {
-                // Since rho(a, b) = 0 if m_a != m_b, we can remove the for (int m = 0;...) loop
-                    for (int np = 0; np < basis.nMax(m); np++)
+                zPart_a = basis.zPart(zVals, n_z_a);
+                // Since rho(a, b) = 0 if m_a != m_b, we can remove the for (int m_a = 0;...) loop
+                    for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
                     {
-                        for (int n_zp = 0; n_zp < basis.n_zMax(m, np); n_zp++)
+                        rPart_b = basis.rPart(rVals, m_a, n_b);
+                        for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++)
                         {
-                            arma::mat funcA = basis.basisFunc(m, n, n_z, zVals, rVals);
-                            arma::mat funcB = basis.basisFunc(m, np, n_zp, zVals, rVals);
-                            result += funcA % funcB * rho(index(m, n, n_z), index(m, np, n_zp));
+                            zPart_b = basis.zPart(zVals, n_z_b);
+                            arma::mat funcA = zPart_a * rPart_a.t();
+                            arma::mat funcB = zPart_b * rPart_b.t();
+                            result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
                         }
                     }
             }

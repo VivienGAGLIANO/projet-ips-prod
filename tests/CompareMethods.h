@@ -17,8 +17,12 @@ class TestNaiveRho : public CxxTest::TestSuite {
         auto step2 = std::chrono::steady_clock::now();
         arma::mat densityNaive = NaiveRho::density(zVals, rVals);
         auto step3 = std::chrono::steady_clock::now();
-        std::cout << std::endl << arma::approx_equal(densityOptimized, densityNaive, "reldiff", 0.001);
 
-        std::cout << std::endl << "Fill : " << ((std::chrono::duration<double>)(step1 - start)).count() << " s\nOpti algo : " << ((std::chrono::duration<double>) (step2 - step1)).count() << " s\nNaive algo : " << ((std::chrono::duration<double>)(step3 - step2)).count() << " s\n";
+        double time1 = ((std::chrono::duration<double>)(step2 - step1)).count();
+        double time2 = ((std::chrono::duration<double>) (step3 - step2)).count();
+
+        std::cout << std::endl << arma::approx_equal(densityOptimized, densityNaive, "reldiff", 0.001);
+        std::cout << std::endl << "Fill : " << ((std::chrono::duration<double>)(step1 - start)).count() << " s\nOpti algo : " << time1 << " s\nNaive algo : " << time2 << " s\n";
+        std::cout << "Optimisation : " << time2/time1 << std::endl;
     }
 };
