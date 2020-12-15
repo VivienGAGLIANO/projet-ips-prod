@@ -22,9 +22,8 @@ tests/%.cpp: tests/%.h
 tests/%: tests/%.cpp $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-.PHONY: tests
 tests: $(TESTS) $(OBJECTS)
-	for test in $(TESTS); do $$test; done
+
 
 .PHONY: doc
 doc:
