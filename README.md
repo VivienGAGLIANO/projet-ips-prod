@@ -12,3 +12,12 @@ Pour générer la documentation :
 
 Pour nettoyer les fichiers compilés :
 > `make clean`
+
+## Execution
+Pour tout lancer et générer les figures :
+> `./run.sh`
+
+## Dépendances
+- armadillo >= 9.900
+- python3 avec matplotlib et numpy
+- povray >= 3.7.0.8
