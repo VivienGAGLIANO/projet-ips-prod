@@ -5,8 +5,6 @@ TESTS = tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/
 TARGET = main
 
 all: $(TARGET)
-run: all
-	./$(TARGET)
 
 $(TARGET): $(TARGET).cpp $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
