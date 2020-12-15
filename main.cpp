@@ -33,11 +33,13 @@ std::string cubeToDf3(const arma::cube &m)
     return ss.str();
 }
 
-arma::cube convert_coordinates(arma::mat input) {
+arma::cube convert_coordinates_old(arma::mat input) {
+    int nbp_r = input.n_cols;
+    int nbp_z = input.n_rows;
+
     int x_min = -10, x_max = 10, nbp_x = 32;
     int y_min = -10, y_max = 10, nbp_y = 32;
-    int z_min = -20, z_max = 20, nbp_z = 64;
-    double r_max = sqrt(201); int nbp_r = input.n_cols;
+    double r_max = sqrt(201);
 
     arma::cube output = arma::cube(nbp_x, nbp_y, nbp_z).zeros();
     for (int x = 0; x < nbp_x; x++) {
@@ -46,34 +48,48 @@ arma::cube convert_coordinates(arma::mat input) {
                 double real_x = x_min + x * ((x_max - x_min)/nbp_x);
                 double real_y = y_min + y * ((y_max - y_min)/nbp_y);
                 double r = sqrt(pow(real_x, 2) + pow(real_y, 2));
-                output(x, y, z) = input(floor(z * (input.n_rows / nbp_z)), floor((r/r_max) * nbp_r));
+                output(x, y, z) = input(z, floor((r/r_max) * nbp_r));
             }
         }
     }
     return output;
 }
 
-int main() {
-/*    arma::cube density = arma::cube(5,10,20).ones();
-    for (int x = 0; x<5; x++) {
-        for (int y = 0; y<10; y++) {
-            for (int z = 0; z<20; z++) {
-//                density(x, y, z) = ((double) x+y)/1000.; //z/20;
-                density(x, y, z) = 0.1;
+arma::cube convert_coordinates(arma::mat input, int r_min, int r_max, int z_min, int z_max) {
+    int nbp_r = input.n_cols;
+    int nbp_z = input.n_rows;
+    int x_min = -r_max, x_max = r_max, nbp_x = 32;
+    int y_min = -r_max, y_max = r_max, nbp_y = 32;
+
+    arma::cube output = arma::cube(nbp_x, nbp_y, nbp_z).zeros();
+    for (int x = 0; x < nbp_x; x++) {
+        for (int y = 0; y < nbp_y; y++) {
+            for (int z = 0; z < nbp_z; z++) {
+//                double real_x = x_min + x * ((x_max - x_min)/nbp_x);
+//                double real_y = y_min + y * ((y_max - y_min)/nbp_y);
+                int r = sqrt(pow(x, 2) + pow(y, 2));
+                if (r >= nbp_r)
+                    output(x, y, z) = 0;
+                else
+                    output(x, y, z) = output(x, y, z) = input(z, r);
             }
         }
-    }*/
+    }
+    return output;
+}
 
-    arma::cube Q(10, 10, 10, arma::fill::zeros);
-    std::cout << std::endl <<Q.slice(0);
 
-//    arma::vec zVals = arma::linspace(-20, 20, 64);
-//    arma::vec rVals = arma::linspace(0, 10, 16);
-//    arma::cube out = convert_coordinates(OptimizedRho::density(zVals, rVals));
-//
-//
-//    std::ofstream outfile("density.df3");
-//    outfile << cubeToDf3(out);
-//    outfile.close();
+int main() {
+    arma::vec zVals = arma::linspace(-20, 20, 64);
+    arma::vec rVals = arma::linspace(0, 10, 16);
+    arma::cube out = convert_coordinates(OptimizedRho::density(zVals, rVals), 0, 10, -20, 20);
+
+    arma::mat flatview = out.subcube(0, out.n_cols/2, 0, out.n_rows - 1, out.n_cols/2, out.n_slices - 1);
+    flatview.save("2dplot.csv", arma::csv_ascii);
+
+    std::ofstream outfile("density.df3");
+    outfile << cubeToDf3(out);
+    outfile.close();
+
     return 0;
 }
