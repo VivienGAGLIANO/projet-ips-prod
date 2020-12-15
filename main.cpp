@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <armadillo>
-#include "headers/Basis.h"
 #include "headers/NaiveRho.h"
 #include "headers/OptimizedRho.h"
 
