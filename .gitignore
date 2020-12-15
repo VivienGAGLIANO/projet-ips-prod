@@ -3,8 +3,9 @@ bin/*
 obj/*
 *.o
 doc/*
-tests/TestMandatory??.cpp
-tests/TestMandatory??
+
+tests/*
+!tests/*.h
 
 visu.png
 density.df3
