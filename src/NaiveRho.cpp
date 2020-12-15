@@ -1,6 +1,17 @@
 #include "../headers/NaiveRho.h"
 #include "../headers/Basis.h"
 
+
+/**
+ * Compute atomic density with naive algorithm
+ *
+ * Algorithm will loop through each and every term of the decomposition along basis function.
+ * With given basis, density doesn't depend on theta, so r and z are the only arguments.
+ *
+ * @param zVals input values for z. Armadillo vector to optimize compute time with Boost library
+ * @param rVals input values for r. Armadillo vector to optimize compute time with Boost library
+ * @return matrix with atomic density values in cylindrical coordinate system. Z values are along lines, r values along rows.
+ */
 arma::mat NaiveRho::density(arma::vec zVals, arma::vec rVals) {
     arma::mat rho;
     rho.load("rho.arma", arma::arma_ascii);

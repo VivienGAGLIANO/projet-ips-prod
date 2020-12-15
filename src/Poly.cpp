@@ -13,6 +13,7 @@
  * This function uses the recursion relation definition of the hermit polynomials to fill the values matrix up to rank n polynomials with the parameter mesh
  * 
  * @param n rank of the desired polynomial
+ * @param mesh values on which to evaluate Hermite polynomials
  */
 void Poly::calcHermite(int n, arma::vec mesh) {
     if (n < 0) {
@@ -34,12 +35,13 @@ void Poly::calcHermite(int n, arma::vec mesh) {
 
 
 /**
- * Computes and evaluates laguerre polynomial
+ * Computes and evaluates Laguerre polynomial
  *
- * This function uses the recursion relation definition of the laguerre polynomials to fill the values matrix up to rank n polynomials with the parameter mesh
+ * This function uses the recursion relation definition of the Laguerre polynomials to fill the values matrix up to rank n polynomials with the parameter mesh
  *
- * @param n rank n of the desired laguerre polynomial
- * @param m rank m of the desired laguerre polynomial
+ * @param n rank n of the desired Laguerre polynomial
+ * @param m rank m of the desired Laguerre polynomial
+ * @param mesh values on which to evaluate Laguerre polynomials
  */
 void Poly::calcLaguerre(int m_max, int n_max, arma::vec mesh) {
     if (n_max < 0 || m_max < 0) {
@@ -65,7 +67,7 @@ void Poly::calcLaguerre(int m_max, int n_max, arma::vec mesh) {
 
 
 /**
- * Accessor for n-th hermit polynomial
+ * Accessor for n-th Hermite polynomial
  *
  * @param n rank of the desired polynomial
  * @return Returns evaluation of n-th polynomial for the object's mesh_hermite
@@ -81,10 +83,10 @@ arma::vec Poly::hermite(int n) {
 }
 
 /**
- * Accessor for n-th laguerre polynomial
+ * Accessor for n-th Laguerre polynomial
  *
- * @param n rank n of the desired laguerre polynomial
- * @param m rank m of the desired laguerre polynomial
+ * @param n rank n of the desired Laguerre polynomial
+ * @param m rank m of the desired Laguerre polynomial
  * @return Returns evaluation of n-th polynomial for the object's mesh_laguerre
  * @deprecated
  */

@@ -20,15 +20,15 @@
 class: titlepage
 
 .title[
-Projet IPS-Dev - [Equation 1D-HO Schrödinger](https://github.com/dubrayn/dubrayn.github.io)
+Projet IPS-Dev - [Local density of a nuclear system](https://github.com/dubrayn/dubrayn.github.io)
 ]
 
 .subtitle[
-M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020
+L. Mallardeau, V. Gagliano, G. Mézière - ENSIIE - 2020
 ]
 
 .row[
-`$$\hat{H}_{(z)}\psi_n(z) = E_n\psi_n(z)$$`
+`$$ $$`
 ]
 
 .footnote[
@@ -59,67 +59,65 @@ M. Boiteau, L. Mallardeau, V. Gagliano - ENSIIE - 2020 - [:book:](index.html)
 ---
 # Objectifs du projet
 
-* Implémenter les solutions de l'équation $\psi_n(z) = \frac{1}{\sqrt{2^nn\, !}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} z\right)$
+* Calculer la densité locale atomique  `$\rho(r)$`
+* Optimiser l'algorithme
 
-* Calculer les niveaux d'énergie `$E_n = \frac{\hat{H}_{(z)}\psi_n(z)}{\psi_n(z)}$`
-
-* Vérifier l'orthonormalité des solutions `$\forall n,m \displaystyle \int \psi_n^*(z)\psi_m(z)\, dz = \delta_{n,m}$`
+* Tracer le résultat en 2D et en 3D
 ---
 class: toc
 #Sommaire
 
 
-1. Structure du projet
+1. Introduction : problème physique
 
-2. Résultats obtenus
+2. Description générale du projet
 
-3. Outils de développement utilisés
+3. Tests unitaires
+
+4. Résultats
 
 ---
-# Diagramme de classe
+# I - Introduction
 
 
-.hcenter.w60[
-        ![](images/class_diagram.png)
+.hcenter.w85[
+        ![](images/local_density.PNG)
+        Densité locale de protons et de neutrons dans un noyau d'atome de néon
 ]
-‌
+‌ 
 
 
 
 ---
-# Chaîne de compilation : Makefile
+# II - Chaîne de compilation : Makefile
 
 
 ```Makefile
 CC = g++
-CFLAGS = -Wall -Wextra -larmadillo -lm
-OBJECTS = obj/MathTools.o obj/Schrodinger.o obj/Hermit.o
+CFLAGS = -g -Wall -Wextra -larmadillo -lm
+OBJECTS = obj/MathTools.o obj/Poly.o obj/Basis.o obj/NaiveRho.o obj/OptimizedRho.o
+TESTS = tests/TestMandatory00 tests/TestMandatory01 tests/TestMandatory02 tests/TestMandatory03 tests/CompareMethods
 TARGET = main
-WEIGHTS_N = 20
 
-all: headers/GaussHermitWeights.h $(TARGET)
-run: all
-	./$(TARGET)
-
-headers/GaussHermitWeights.h: generate_gausshermit_weights.py
-	./generate_gausshermit_weights.py $(WEIGHTS_N)
+all: $(TARGET)
 
 $(TARGET): $(TARGET).cpp $(OBJECTS)
 	$(CC) $(CFLAGS) $^ -o $@
 
 obj/%.o: src/%.cpp headers/%.h
+	@if [ ! -d obj ]; then mkdir obj; fi
 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o: obj/%.o
 
-.PHONY: tests
-tests: 
-	cxxtestgen --error-printer -o tests/testHermit.cpp tests/test_hermit.h
-	cxxtestgen --error-printer -o tests/testSchrodinger.cpp tests/test_schrodinger.h
-	g++ -o tests/testHermit tests/testHermit.cpp
-	g++ -o tests/testSchrodinger tests/testSchrodinger.cpp
-	./tests/testHermit
-	./tests/testSchrodinger
+tests/%.cpp: tests/%.h
+	cxxtestgen --error-printer $^ -o $@
+
+tests/%: tests/%.cpp $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+tests: $(TESTS) $(OBJECTS)
+
 
 .PHONY: doc
 doc:
@@ -128,96 +126,288 @@ doc:
 .PHONY: clean re
 clean:
 	rm -f $(OBJECTS) $(TARGET) *.out
-	rm -f tests/testHermit tests/testSchrodinger tests/testHermit.cpp tests/testSchrodinger.cpp
+	rm -f $(TESTS) tests/*.cpp
 
 re: clean all
 ```
-‌
 
-
----
-# Tracé de la solution
-
-
-![](images/psi.png)
-
-
----
-# Niveaux d'énergie
-
-
-![](images/energy.png)
 
 
 
 ---
-# Orthonormalité
+# II - Code : NaiveRho.cpp
+
 
 ```C++
-bool Schrodinger::orthonormality() {
-    #include "../headers/GaussHermitWeights.h"
-    for (int p = 0; p <= 10; p++) {
-        for (int q = 0; q <= 10; q++) {
-            double c1 = sqrt((m*w) / (pi*h_bar)) / (sqrt(pow(2, p+q) * MathTools::factorial(p) * MathTools::factorial(q)));
-            double c2 = c1 * sqrt(h_bar / (m*w));
-            Hermit hermit(X);
-            arma::vec I = W.t() * (hermit.get(p) % hermit.get(q));
-            double integral = c2 * I(0);
-            if (std::abs(integral - ((p==q) ? 1 : 0)) >= 1)
-                return false;
+#include "../headers/NaiveRho.h"
+#include "../headers/Basis.h"
+
+arma::mat NaiveRho::density(arma::vec zVals, arma::vec rVals) {
+    arma::mat rho;
+    rho.load("rho.arma", arma::arma_ascii);
+    arma::mat result = arma::zeros(zVals.size(), rVals.size()); // number of points on r- and z- axes
+    Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+    int i = 0;
+    int j = 0;
+    for (int m = 0; m < basis.mMax; m++)
+    {
+        for (int n = 0; n < basis.nMax(m); n++)
+        {
+            for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+            {
+                for (int mp = 0; mp < basis.mMax; mp++)
+                {
+                    for (int np = 0; np < basis.nMax(mp); np++)
+                    {
+                        for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+                        {
+                            arma::mat funcA = basis.basisFunc( m,  n,  n_z, zVals, rVals);
+                            arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+                            result += funcA % funcB * rho(i, j);
+                            i++;
+                        }
+                    }
+                }
+                j++;
+                i = 0;
+            }
         }
     }
-    return true;
+    return result;
 }
 ```
 
----
-# Tests unitaires
-
-
-Tests des polynômes d'Hermite:
-```c++
-void testHermit(void)
-	{
-		Hermit herm(arma::colvec({-2,0,2}));
-	  TS_ASSERT_EQUALS(herm.get(0)(0),1);
-		TS_ASSERT_EQUALS(herm.get(0)(1),1);
-		TS_ASSERT_EQUALS(herm.get(0)(2),1);
-    TS_ASSERT_EQUALS(herm.get(1)(2),4);
-  }
-
-```
-Tests des valeurs de l'énergie:
 ```C++
-void testSchrodingerPSI_ENERGY(void)
-	{
-		Schrodinger schro;
-	    int j =0;
-		int i =0;
-		arma::colvec z = arma::colvec({-2,-1,0,1,2,5});
-		arma::vec h_vec = arma::vec(z.n_rows).ones();
-		for( i = 0; i < 8; i++) {
-			arma::colvec value = (-schro.psi_second(i,z)+schro.psi(i,z)%schro.psi(i,z)) % (0.5*h_vec);
-			for (j = 0; j<6; j++) {
-				TS_ASSERT_DELTA(schro.energy(i,z)(j),value(j),0.00000001);
-			};
-		};
-  }  
+arma::mat Basis::basisFunc(int m, int n, int n_z, arma::vec zVals, arma::vec rVals) {
+    return zPart(zVals, n_z) * (rPart(rVals, m, n).t());
+}
 ```
 
 
-![](images/tests.png)
+
+
+
 
 
 ---
-# Git
 
+# II - Optimisation 1
 
-.hcenter[
-    ![](images/git_message.png)
+.row.hcenter[
 
-    ![](images/git_graph.png)
+```C++
+int i = 0;
+    arma::icube index(basis.mMax, basis.nMax(0), basis.n_zMax(0, 0), arma::fill::zeros);
+    for (int m = 0; m < basis.mMax; ++m)
+    {
+        for (int n = 0; n < basis.nMax(m); ++n)
+        {
+            for (int n_z = 0; n_z < basis.n_zMax(m, n); ++n_z)
+            {
+                index(m, n, n_z) = i;
+                i++;
+            }
+        }
+    }
+```
 ]
+.column.hcenter.w40[![](images/OptimizationStep1Result.png)]
+
+
+
+
+
+
+---
+
+# II - Optimisation 2
+
+.row.hcenter[
+```C++
+// Since rho(a, b) = 0 if m_a != m_b, we can remove the for (int m_b = 0;...) loop
+for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
+{
+    for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) 
+    {
+        arma::mat funcA = basis.basisFunc(m_a, n_a, n_z_a, zVals, rVals);
+        arma::mat funcB = basis.basisFunc(m_a, n_b, n_z_b, zVals, rVals);
+        result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
+    }
+}
+```
+]
+.column.hcenter.w40[![](images/OptimizationStep2Result.png)]
+
+
+
+---
+
+# II - Optimisation 3
+```C++
+arma::vec zPart_a;
+arma::vec rPart_a;
+arma::vec zPart_b;
+arma::vec rPart_b;
+for (int m_a = 0; m_a < basis.mMax; m_a++)
+{
+    for (int n_a = 0; n_a < basis.nMax(m_a); n_a++)
+    {
+        rPart_a = basis.rPart(rVals, m_a, n_a);
+        for (int n_z_a = 0; n_z_a < basis.n_zMax(m_a, n_a); n_z_a++)
+        {
+            zPart_a = basis.zPart(zVals, n_z_a);
+            // Since rho(a, b) = 0 if m_a != m_b, we can remove the for (int m_b = 0;...) loop
+                for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
+                {
+                    rPart_b = basis.rPart(rVals, m_a, n_b);
+                    for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
+                        zPart_b = basis.zPart(zVals, n_z_b);
+                        arma::mat funcA = zPart_a * rPart_a.t();
+                        arma::mat funcB = zPart_b * rPart_b.t();
+                        result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
+                    }
+                }
+        }
+    }
+}
+```
+.column.hcenter.w40[![](images/OptimizationStep3Result.png)]
+
+
+---
+
+# II - Optimisation 4
+```C++
+arma::mat zParts(zVals.n_elem, basis.n_zMax(0, 0));
+    for (int n_z = 0; n_z < basis.n_zMax(0, 0); ++n_z) 
+    {
+        zParts.col(n_z) = basis.zPart(zVals, n_z);
+    }
+```
+.column.hcenter.w40[![](images/OptimizationStep4Result.png)]
+
+
+---
+
+# II - Optimisation 5
+```C++
+int i = 0;
+    arma::mat zParts(zVals.n_elem, basis.n_zMax(0, 0));
+    arma::icube index(basis.mMax, basis.nMax(0), basis.n_zMax(0, 0), arma::fill::zeros);
+    for (int m = 0; m < basis.mMax; ++m) {
+        for (int n = 0; n < basis.nMax(m); ++n) {
+            for (int n_z = 0; n_z < basis.n_zMax(m, n); ++n_z) {
+                if (m == 0 && n == 0) {
+                    zParts.col(n_z) = basis.zPart(zVals, n_z);
+                }
+                index(m, n, n_z) = i;
+                i++;
+            }
+        }
+    }
+```
+.column.hcenter.w40[![](images/OptimizationStep5Result.png)]
+
+---
+# II - Optimisation : algorithme final
+
+```C++
+arma::mat OptimizedRho::density(arma::vec zVals, arma::vec rVals) {
+    arma::mat rho;
+    rho.load("rho.arma", arma::arma_ascii);
+    arma::mat result = arma::zeros(zVals.size(), rVals.size()); // number of points on r- and z- axes
+    Basis basis(1.935801664793151, 2.829683956491218, 14, 1.3);
+
+    int i = 0;
+    arma::mat zParts(zVals.n_elem, basis.n_zMax(0, 0));
+    arma::icube index(basis.mMax, basis.nMax(0), basis.n_zMax(0, 0), arma::fill::zeros);
+    for (int m = 0; m < basis.mMax; ++m) {
+        for (int n = 0; n < basis.nMax(m); ++n) {
+            for (int n_z = 0; n_z < basis.n_zMax(m, n); ++n_z) {
+                if (m == 0 && n == 0) {
+                    zParts.col(n_z) = basis.zPart(zVals, n_z);
+                }
+                index(m, n, n_z) = i;
+                i++;
+            }
+        }
+    }
+
+    arma::vec rPart_a;
+    arma::vec rPart_b;
+    for (int m_a = 0; m_a < basis.mMax; m_a++)
+    {
+        for (int n_a = 0; n_a < basis.nMax(m_a); n_a++)
+        {
+            rPart_a = basis.rPart(rVals, m_a, n_a);
+            for (int n_z_a = 0; n_z_a < basis.n_zMax(m_a, n_a); n_z_a++)
+            {
+                    for (int n_b = 0; n_b < basis.nMax(m_a); n_b++)
+                    {
+                        rPart_b = basis.rPart(rVals, m_a, n_b);
+                        for (int n_z_b = 0; n_z_b < basis.n_zMax(m_a, n_b); n_z_b++) {
+                            arma::mat funcA = zParts.col(n_z_a) * rPart_a.t();
+                            arma::mat funcB = zParts.col(n_z_b) * rPart_b.t();
+                            result += funcA % funcB * rho(index(m_a, n_a, n_z_a), index(m_a, n_b, n_z_b));
+                        }
+                    }
+            }
+        }
+    }
+    return result;
+}
+```
+
+
+---
+
+# III - Tests unitaires
+
+```C++
+class TestMandatory00 : public CxxTest::TestSuite {
+    public:
+    void testPoly(void) {
+        // Mandatory test #00 - Hermite and Laguerre polynomials
+        Poly poly;
+        arma::vec zVals, calcVals, targetVals;
+        zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
+        poly.calcHermite(6, zVals); // compute Hermite polynomials for n in {0 ... 5}
+        calcVals   = poly.hermite(4); // n = 4
+        targetVals = {  1.02835360e+03,  2.05825600e+02, -2.00000000e+01,  7.80960000e+00,
+                        1.15216000e+01,  4.59456160e+03,  1.10572154e+05,  5.54643458e+05};
+        TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+        calcVals   = poly.hermite(5); // n = 5
+        targetVals = { -4.76676832e+03, -3.88909760e+02,  8.00000000e+00, -3.17577600e+01,
+                       1.18403200e+01,  3.48375818e+04,  1.98557479e+06,  1.50339793e+07};
+        TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+        zVals = {0.1, 0.3, 1.2, 1.8, 2.0, 2.5, 7.1, 11.1};
+        poly.calcLaguerre(6, 4, zVals); // compute generalized Laguerre polynomials for m in {0 ... 5} and n in {0 ... 3}
+        calcVals   = poly.laguerre(4, 2); // m = 4, n = 2
+        targetVals = {  14.405,  13.245,  8.52 ,  5.82 ,  5.,  3.125,  -2.395,  10.005};
+        TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+        calcVals   = poly.laguerre(5, 3); // m = 5, n = 3
+        targetVals = { 53.23983333,  47.95550000,  27.87200000,  17.5880,
+                       14.66666667,   8.39583333,  -0.81183333,  10.1015};
+        TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+    }
+};
+```
+
+.column.hcenter.w80[![](images/unit_tests.PNG)]
+
+
+---
+
+# Résultat
+
+.hcenter.w80[![](images/unit_tests.PNG)]
+
+.hcenter[premier screen]
+
+.hcenter.w80[![](images/unit_tests.PNG)]
+
+.hcenter[premier screen]
+
 ‌
 
 
