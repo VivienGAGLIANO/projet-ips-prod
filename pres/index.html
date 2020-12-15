@@ -77,6 +77,7 @@ class: toc
 4. Résultats
 
 ---
+
 # I - Introduction
 
 
@@ -84,7 +85,9 @@ class: toc
         ![](images/local_density.PNG)
         Densité locale de protons et de neutrons dans un noyau d'atome de néon
 ]
-‌ 
+‌.hcenter[
+`$$\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`]
+
 
 
 
@@ -108,7 +111,6 @@ obj/%.o: src/%.cpp headers/%.h
 	@if [ ! -d obj ]; then mkdir obj; fi
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: obj/%.o
 
 tests/%.cpp: tests/%.h
 	cxxtestgen --error-printer $^ -o $@
